@@ -1,11 +1,11 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import ScrollTopOnRefresh from "./utils/ScrollToTop";
-import trafficTracker from "./utils/trafficTracker";
+import visitorCount from "./utils/visitorCount";
 import Navbar from "./components/Navbar";
 import RandomShape from "./components/RandomShapes";
 import Header from "./components/Header";
 
-// Lazy load non-critical components
+// Lazy loaded components
 const About = lazy(() => import("./components/About"));
 const Skills = lazy(() => import("./components/Skills"));
 const Qualifications = lazy(() => import("./components/Qualifications"));
@@ -13,7 +13,6 @@ const Projects = lazy(() => import("./components/Projects"));
 const Contact = lazy(() => import("./components/Contact"));
 const Footer = lazy(() => import("./components/Footer"));
 
-// Loading fallback component
 const LoadingFallback = () => (
   <div className="py-16 px-4 flex justify-center items-center">
     <div className="animate-pulse flex flex-col items-center">
@@ -24,26 +23,31 @@ const LoadingFallback = () => (
 );
 
 const App = () => {
-  // Initialize traffic tracking when the app loads
   useEffect(() => {
-    // Record the page view
-    trafficTracker.recordView();
+    const trackVisit = async () => {
+      console.log("Attempting to track visit...");
+      try {
+        const result = await visitorCount.recordVisit();
+        console.log("Visit tracking result:", result);
+      } catch (error) {
+        console.error("Visitor tracking error:", error);
+      }
+    };
 
-    // Log traffic statistics to console (optional)
-    console.log(
-      `Page view recorded. Today: ${trafficTracker.getTodayViews()} views. Total: ${trafficTracker.getTotalViews()} views.`
-    );
-  }, []);
+    // Call trackVisit immediately
+    trackVisit();
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
     <div className="transition-colors duration-300 dark:bg-gray-900 bg-white">
       <ScrollTopOnRefresh />
-      {/* Critical components loaded eagerly */}
+
+      {/* Critical components */}
       <Navbar />
       <RandomShape />
       <Header />
 
-      {/* Lazy loaded components with Suspense */}
+      {/* Lazy loaded components */}
       <Suspense fallback={<LoadingFallback />}>
         <About />
       </Suspense>
