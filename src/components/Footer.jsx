@@ -1,178 +1,121 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faFacebookF,
-  faGithub,
-  faInstagram,
-  faTwitter,
-  faLinkedinIn,
-  faXTwitter,
+   faFacebookF,
+   faGithub,
+   faInstagram,
+   faTwitter,
+   faLinkedinIn,
+   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faArrowRight, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const Footer = () => {
-  const [hoverEmail, setHoverEmail] = useState(false);
-  const [activeIcon, setActiveIcon] = useState(null);
-  const currentYear = new Date().getFullYear();
+   const [hoverEmail, setHoverEmail] = useState(false);
+   const [activeIcon, setActiveIcon] = useState(null);
+   const currentYear = new Date().getFullYear();
 
-  // Social media links with enhanced hover effects
-  const socialLinks = [
-    {
-      icon: faFacebookF,
-      url: "https://www.facebook.com/",
-      color: "hover:text-blue-500",
-      hoverBg: "group-hover:bg-blue-500",
-      label: "Facebook",
-    },
-    {
-      icon: faGithub,
-      url: "https://www.github.com/rohitsriv28/",
-      color: "hover:text-gray-800",
-      hoverBg: "group-hover:bg-gray-800",
-      label: "GitHub",
-    },
-    {
-      icon: faInstagram,
-      url: "https://www.instagram.com/_i_rohit28/",
-      color: "hover:text-pink-500",
-      hoverBg:
-        "group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500",
-      label: "Instagram",
-    },
-    {
-      icon: faXTwitter,
-      url: "https://twitter.com/_i_rohit28",
-      color: "hover:text-blue-400",
-      hoverBg: "group-hover:bg-blue-400",
-      label: "Twitter",
-    },
-    {
-      icon: faLinkedinIn,
-      url: "https://linkedin.com/rohitsriv28",
-      color: "hover:text-blue-600",
-      hoverBg: "group-hover:bg-blue-600",
-      label: "LinkedIn",
-    },
-  ];
+   const socialLinks = [
+      {
+         icon: faFacebookF,
+         url: "https://www.facebook.com/",
+         color: "text-blue-500",
+         label: "Facebook",
+      },
+      {
+         icon: faGithub,
+         url: "https://www.github.com/rohitsriv28/",
+         color: "text-slate-200",
+         label: "GitHub",
+      },
+      {
+         icon: faInstagram,
+         url: "https://www.instagram.com/_i_rohit28/",
+         color: "text-pink-500",
+         label: "Instagram",
+      },
+      {
+         icon: faXTwitter,
+         url: "https://twitter.com/_i_rohit28",
+         color: "text-white",
+         label: "Twitter",
+      },
+      {
+         icon: faLinkedinIn,
+         url: "https://linkedin.com/rohitsriv28",
+         color: "text-blue-600",
+         label: "LinkedIn",
+      },
+   ];
 
-  return (
-    <footer
-      id="footer"
-      className="relative bg-gradient-to-b from-transparent to-black text-white py-16 overflow-hidden"
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Top section with grid layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-          {/* Left column - Let's Connect */}
-          <div className="text-left">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-              Let's Connect
-            </h2>
-            <p className="text-base text-gray-300 mb-6 leading-relaxed">
-              Have a project in mind or just want to say hello? I'm always open
-              to discussing new opportunities and ideas.
-            </p>
+   return (
+      <footer id="footer" className="relative pt-24 pb-12 overflow-hidden border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950/50 backdrop-blur-sm transition-colors duration-300">
+         <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent dark:from-black dark:via-transparent dark:to-transparent pointer-events-none"></div>
 
-            {/* Contact Button */}
-            <a
-              href="#contact"
-              className="group inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-2 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:translate-x-1"
-            >
-              Get In Touch
-              <FontAwesomeIcon
-                icon={faArrowRight}
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </a>
-          </div>
+         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 mb-16">
+               {/* Left Column */}
+               <div className="space-y-8">
+                  <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight">
+                     Let's make something <br />
+                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+                        amazing together.
+                     </span>
+                  </h2>
+                  <p className="text-slate-600 dark:text-slate-400 text-lg max-w-md font-light leading-relaxed">
+                     I'm currently available for freelance projects and open to new opportunities.
+                  </p>
 
-          {/* Right column - Email and Social Icons */}
-          <div className="text-left md:text-right">
-            <h3 className="text-xl font-semibold mb-3">Contact Details</h3>
-            <a
-              href="mailto:rohitraj2002ind@gmail.com"
-              className="group inline-flex items-center gap-2 text-lg font-medium text-gray-300 hover:text-blue-400 transition-all duration-300 mb-6"
-              onMouseEnter={() => setHoverEmail(true)}
-              onMouseLeave={() => setHoverEmail(false)}
-            >
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                className={`w-5 h-5 ${
-                  hoverEmail ? "text-blue-400" : "text-gray-400"
-                } transition-colors duration-300`}
-              />
-              <span className="relative">
-                rohitraj2002@gmail.com
-                <span
-                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-400 transform transition-transform duration-300 ${
-                    hoverEmail ? "scale-x-100" : "scale-x-0"
-                  } origin-left`}
-                ></span>
-              </span>
-            </a>
-
-            {/* Social Media Icons - Enhanced with better spacing and animations */}
-            <div className="flex flex-wrap justify-start md:justify-end gap-4 mt-6">
-              {socialLinks.map((social, index) => (
-                <a
-                  key={index}
-                  href={social.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={social.label}
-                  className="group relative"
-                  onMouseEnter={() => setActiveIcon(index)}
-                  onMouseLeave={() => setActiveIcon(null)}
-                >
-                  <div
-                    className={`
-                    absolute inset-0 rounded-full opacity-0 ${
-                      social.hoverBg
-                    } transition-opacity duration-300
-                    ${activeIcon === index ? "opacity-100" : ""}
-                  `}
-                  ></div>
-                  <div
-                    className={`
-                    relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 
-                    border border-gray-700 transition-all duration-300
-                    ${
-                      activeIcon === index
-                        ? "text-white border-transparent"
-                        : "text-gray-400"
-                    }
-                    hover:scale-110 hover:shadow-lg
-                  `}
+                  <a
+                     href="#contact"
+                     className="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 dark:bg-white text-white dark:text-slate-900 rounded-full font-bold hover:bg-indigo-700 dark:hover:bg-indigo-50 hover:scale-105 transition-all duration-300 shadow-lg group"
                   >
-                    <FontAwesomeIcon icon={social.icon} className="w-4 h-4" />
+                     Start a Project
+                     <FontAwesomeIcon icon={faArrowRight} className="group-hover:translate-x-1 transition-transform" />
+                  </a>
+               </div>
+
+               {/* Right Column */}
+               <div className="space-y-8 md:text-right">
+                  <div>
+                     <h3 className="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider mb-4">Contact</h3>
+                     <a
+                        href="mailto:rohitraj2002ind@gmail.com"
+                        className="text-2xl md:text-3xl font-medium text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                     >
+                        rohitraj2002@gmail.com
+                     </a>
                   </div>
-                </a>
-              ))}
+
+                  <div>
+                     <h3 className="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider mb-6 md:ml-auto">Socials</h3>
+                     <div className="flex flex-wrap gap-4 md:justify-end">
+                        {socialLinks.map((social, index) => (
+                           <a
+                              key={index}
+                              href={social.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="w-12 h-12 rounded-full border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-white hover:bg-indigo-600 dark:hover:bg-white/10 hover:border-transparent dark:hover:border-white/20 transition-all duration-300 group"
+                              aria-label={social.label}
+                           >
+                              <FontAwesomeIcon icon={social.icon} className={`text-lg transition-transform duration-300 group-hover:scale-110 ${social.color.replace('text-', 'group-hover:text-white ')}`} />
+                           </a>
+                        ))}
+                     </div>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-6"></div>
-
-        {/* Footer Bottom - Enhanced with better styling */}
-        <div className="flex flex-col md:flex-row items-center justify-center text-gray-400 text-sm">
-          <div className="flex items-center mb-2 md:mb-0">
-            <span className="mr-2">Designed with ❤️</span>
-            {/* <a
-              href="https://www.github.com/rohitsriv28"
-              className="font-medium text-blue-400 hover:text-blue-300 transition-all duration-300"
-            >
-              Rohit &nbsp;
-            </a> */}
-          </div>
-          <div className="flex items-center">
-            <span>&copy; {currentYear} All Rights Reserved</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+            <div className="border-t border-slate-200 dark:border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
+               <p>&copy; {currentYear} Rohit Raj Srivastava. Code. Create. Innovate.</p>
+               <p className="flex items-center gap-2 mt-2 md:mt-0">
+                  Forged with <FontAwesomeIcon icon={faHeart} className="text-red-500" /> in the fires of React & Tailwind.
+               </p>
+            </div>
+         </div>
+      </footer>
+   );
 };
 
 export default Footer;

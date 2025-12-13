@@ -12,9 +12,22 @@ import resum_pdf from "@assets/My_Resume.pdf";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [showSocials, setShowSocials] = useState(true);
 
   useEffect(() => {
     setIsVisible(true);
+
+    const handleScroll = () => {
+      // Hide socials when scrolled down past 200px (approaching About section)
+      if (window.scrollY > 200) {
+        setShowSocials(false);
+      } else {
+        setShowSocials(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToContact = () => {
@@ -24,154 +37,104 @@ const Header = () => {
     }
   };
 
+  const socialLinks = [
+    { icon: faGithub, url: "https://www.github.com/rohitsriv28/", color: "hover:bg-gray-800" },
+    { icon: faLinkedinIn, url: "https://www.linkedin.com/in/rohitsriv28/", color: "hover:bg-blue-700" },
+    { icon: faXTwitter, url: "https://www.twitter.com/_i_rohit28", color: "hover:bg-black" },
+    { icon: faInstagram, url: "https://www.instagram.com/_i_rohit28/", color: "hover:bg-pink-600" },
+    { icon: faFacebookF, url: "https://www.facebook.com/", color: "hover:bg-blue-600" },
+  ];
+
   return (
     <section
       id="main"
-      className="relative min-h-screen flex items-center justify-center from-gray-900 via-gray-800 to-black text-white overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-slate-50 dark:bg-transparent transition-colors duration-300"
     >
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 relative z-10">
-        <div
-          className={`flex flex-col lg:flex-row items-center justify-between gap-16 transform transition-all duration-1000 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
-        >
-          {/* Image Section with improved styling */}
-          <div className="relative group">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 blur-lg opacity-70 group-hover:opacity-100 transition-all duration-700 animate-pulse"></div>
-            <div className="relative w-72 h-72 rounded-full overflow-hidden border-4 border-white shadow-xl transform transition-all duration-300 group-hover:scale-105">
-              <img
-                src={img}
-                alt="Rohit"
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-            </div>
-          </div>
+      {/* Background Glows */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] animate-pulse-glow" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
 
-          {/* Text Section with staggered animations */}
-          <div className="text-center lg:text-left space-y-6 lg:max-w-xl">
-            <div
-              className={`transform transition-all duration-700 delay-100 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0"
-              }`}
-            >
-              <h3 className="text-xl text-blue-400 font-medium mb-2">
-                Hello, I'm
-              </h3>
-              <h2 className="text-5xl sm:text-6xl font-bold mb-4 pb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                Rohit Raj Srivastava
-              </h2>
-              <div className="relative">
-                <h4 className="text-2xl text-gray-300 inline-block">
-                  Frontend Developer
-                </h4>
-                <span className="absolute -right-2 top-0 h-full w-1 bg-blue-500 animate-blink"></span>
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20">
+          
+          {/* Text Content */}
+          <div className="text-center lg:text-left flex-1 space-y-8">
+            <div className={`space-y-4 transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+              <div className="inline-block px-4 py-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 backdrop-blur-sm">
+                <span className="text-indigo-600 dark:text-indigo-400 font-medium tracking-wide text-sm">Welcome to my portfolio</span>
               </div>
+              
+              <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 dark:text-white">
+                Hi, I'm <br />
+                <span className="text-gradient">Rohit Raj Srivastava</span>
+              </h1>
+              
+              <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 max-w-xl mx-auto lg:mx-0 font-light">
+                Frontend Developer & BCA Student crafting modern web experiences.
+              </p>
             </div>
 
-            <p
-              className={`text-xl text-gray-300 leading-relaxed transition-all duration-700 delay-200 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0"
-              }`}
-            >
-              BCA Student | Web Developer
-            </p>
-
-            <div
-              className={`flex flex-wrap justify-center sm:justify-start gap-4 transition-all duration-700 delay-300 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-6 opacity-0"
-              }`}
-            >
+            {/* Buttons */}
+            <div className={`flex flex-wrap justify-center lg:justify-start gap-4 transition-all duration-1000 delay-200 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
               <button
                 onClick={scrollToContact}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1"
+                className="px-8 py-4 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-indigo-500/25 transition-all hover:-translate-y-1 transform"
               >
-                Contact Me
+                Let's Talk
               </button>
 
               <a
                 href={resum_pdf}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-transparent border border-blue-500 text-blue-500 px-8 py-3 rounded-lg hover:bg-blue-500/10 transition-all duration-300 transform hover:-translate-y-1"
+                className="px-8 py-4 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-white font-medium hover:bg-white/10 transition-all hover:-translate-y-1 transform"
               >
                 View Resume
               </a>
             </div>
-          </div>
-        </div>
 
-        {/* Social Media Links with hover effects */}
-        <div
-          className={`mt-16 transition-all duration-700 delay-500 ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-          }`}
-        >
-          <div className="hidden flex-col sm:flex-row items-end justify-end gap-4 sm:flex">
-            <span className="text-gray-400 text-lg">Follow Me On</span>
-            <div className="h-px w-20 bg-gradient-to-r from-transparent via-gray-500 to-transparent hidden sm:block"></div>
-            <div className="flex items-center gap-5">
-              <a
-                href="https://www.facebook.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/20"
-              >
-                <FontAwesomeIcon icon={faFacebookF} className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.instagram.com/_i_rohit28/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-pink-500/20"
-              >
-                <FontAwesomeIcon icon={faInstagram} className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.twitter.com/_i_rohit28"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-500/20"
-              >
-                <FontAwesomeIcon icon={faXTwitter} className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.github.com/rohitsriv28/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-gray-700 hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-500/20"
-              >
-                <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/rohitsriv28/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-700 hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/20"
-              >
-                <FontAwesomeIcon icon={faLinkedinIn} className="w-5 h-5" />
-              </a>
+            {/* Social Links */}
+            <div className={`hidden lg:flex items-center justify-center lg:justify-start gap-4 transition-all duration-500 delay-300 transform ${isVisible && showSocials ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'}`}>
+              <span className="text-slate-600 dark:text-slate-500 text-sm font-medium mr-2">Follow me</span>
+              <div className="w-12 h-px bg-slate-300 dark:bg-slate-700 mr-2"></div>
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/5 transition-all hover:text-white hover:-translate-y-1 hover:shadow-lg ${social.color}`}
+                >
+                  <FontAwesomeIcon icon={social.icon} />
+                </a>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Scroll indicator */}
-        {/* <div className={`absolute -bottom-28 left-1/2 transform -translate-x-1/2 transition-all duration-700 delay-700 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
-          <div className="flex flex-col items-center">
-            <span className="text-gray-400 text-sm mb-2">Scroll Down</span>
-            <div className="w-6 h-10 rounded-full border-2 border-gray-400 flex justify-center p-1">
-              <div className="w-1 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+          {/* Profile Image */}
+          <div className={`flex-1 flex justify-center lg:justify-end transition-all duration-1000 delay-500 transform ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
+            <div className="relative w-72 h-72 sm:w-96 sm:h-96">
+              {/* Spinning border */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-500 opacity-30 animate-spin-slow blur-md" style={{ animationDuration: '10s' }} />
+              
+              {/* Image Container */}
+              <div className="absolute inset-2 rounded-full overflow-hidden border-2 border-white/10 bg-slate-900 ring-4 ring-white/5 shadow-2xl">
+                <img
+                  src={img}
+                  alt="Rohit"
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                />
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full opacity-20 blur-xl animate-float" />
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full opacity-20 blur-xl animate-float" style={{ animationDelay: '1.5s' }} />
             </div>
           </div>
-        </div> */}
+
+        </div>
       </div>
+      
     </section>
   );
 };

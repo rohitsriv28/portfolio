@@ -49,7 +49,6 @@ const About = () => {
   const fetchStats = useCallback(() => {
     setIsLoading(true);
 
-    // Use onSnapshot for real-time updates
     const unsubscribe = onSnapshot(
       statsRef,
       (doc) => {
@@ -60,20 +59,13 @@ const About = () => {
             totalProjects: data.totalProjects || 3,
           });
         } else {
-          console.log("No stats document found");
-          setStats({
-            experience: 1,
-            totalProjects: 3,
-          });
+          setStats({ experience: 1, totalProjects: 3 });
         }
         setIsLoading(false);
       },
       (error) => {
         console.error("Error fetching stats:", error);
-        setStats({
-          experience: 1,
-          totalProjects: 3,
-        });
+        setStats({ experience: 1, totalProjects: 3 });
         setIsLoading(false);
       }
     );
@@ -82,14 +74,9 @@ const About = () => {
   }, []);
 
   useEffect(() => {
-    // Set up real-time listener
     const unsubscribe = fetchStats();
-
-    // Cleanup listener on unmount
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
+      if (unsubscribe) unsubscribe();
     };
   }, [fetchStats]);
 
@@ -116,34 +103,37 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="py-20 text-white relative overflow-hidden">
+    <section id="about" className="pt-8 pb-20 bg-slate-50 dark:bg-transparent relative overflow-hidden transition-colors duration-300">
       <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-lg">
+        
+        <div className="text-center mb-10 space-y-3">
+          <div className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-sm">
+            <span className="text-purple-600 dark:text-purple-400 font-medium text-sm">My Journey</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
             About Me
           </h2>
-          <p className="text-lg text-gray-300">My Digital Journey</p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           <div
-            className="relative w-72 h-72 rounded-full overflow-hidden border-4 border-white/50 shadow-lg shadow-blue-500/30"
+            className="relative w-72 h-72 md:w-96 md:h-96 rounded-2xl overflow-hidden glass-card transform transition-all duration-300 hover:scale-105 shadow-2xl dark:shadow-none"
             ref={profileRef}
           >
-            <div className="absolute inset-0 bg-blue-500/20 backdrop-blur-sm"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 backdrop-blur-[2px] z-10"></div>
             <img
               src={img}
               alt="Profile"
               loading="lazy"
-              className="w-full h-full object-cover relative z-10"
+              className="w-full h-full object-cover"
             />
           </div>
 
-          <div className="text-center lg:text-left max-w-2xl">
-            <h3 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-              Hi, I&apos;m Rohit!
+          <div className="text-center lg:text-left max-w-2xl space-y-8">
+            <h3 className="text-3xl font-bold text-slate-900 dark:text-white">
+              Hi, I&apos;m <span className="text-indigo-600 dark:text-indigo-400">Rohit!</span>
             </h3>
-            <p className="text-lg text-gray-300 mb-8 backdrop-blur-sm bg-gray-800/30 p-6 rounded-lg">
+            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-light">
               I am a passionate web developer specializing in React and modern
               web technologies. My mission is to create intuitive,
               user-friendly, and visually stunning web experiences. Every
@@ -151,50 +141,35 @@ const About = () => {
               design.
             </p>
 
-            <div className="flex flex-wrap justify-center lg:justify-start gap-8 mb-8">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-6">
               {isLoading ? (
                 <>
                   {[1, 2].map((item) => (
-                    <div
-                      key={item}
-                      className="backdrop-blur-md bg-gray-800/60 p-6 rounded-lg text-center w-44 border border-white/10 animate-pulse"
-                    >
-                      <div className="h-8 bg-gray-700 rounded mb-2"></div>
-                      <div className="h-4 bg-gray-700 rounded w-3/4 mx-auto"></div>
-                      <div className="h-6 w-6 bg-gray-700 rounded-full mx-auto mt-4"></div>
-                    </div>
+                    <div key={item} className="h-32 w-44 rounded-xl bg-slate-200 dark:bg-white/5 animate-pulse" />
                   ))}
                 </>
               ) : (
                 <>
-                  <div className="backdrop-blur-md bg-gray-800/60 p-6 rounded-lg text-center w-44 border border-white/10 hover:border-blue-500/50 transition-all duration-300 transform hover:-translate-y-1">
-                    <h4 className="text-3xl font-bold mb-2 text-white">
+                  <div className="bg-white dark:bg-white/5 p-6 rounded-xl text-center w-48 hover:border-indigo-500/50 transition-all duration-300 group border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none">
+                    <h4 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       <CountUp end={stats.experience} />+
                     </h4>
-                    <p className="text-gray-300">Years of Experience</p>
-                    <FontAwesomeIcon
-                      icon={faCode}
-                      className="text-blue-500 text-2xl mt-4"
-                    />
+                    <p className="text-slate-600 dark:text-slate-400 text-sm">Years of Experience</p>
                   </div>
-                  <div className="backdrop-blur-md bg-gray-800/60 p-6 rounded-lg text-center w-44 border border-white/10 hover:border-green-500/50 transition-all duration-300 transform hover:-translate-y-1">
-                    <h4 className="text-3xl font-bold mb-2 text-white">
+                  <div className="bg-white dark:bg-white/5 p-6 rounded-xl text-center w-48 hover:border-purple-500/50 transition-all duration-300 group border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none">
+                    <h4 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                       <CountUp end={stats.totalProjects} />+
                     </h4>
-                    <p className="text-gray-300">Projects</p>
-                    <FontAwesomeIcon
-                      icon={faLayerGroup}
-                      className="text-green-500 text-2xl mt-4"
-                    />
+                    <p className="text-slate-600 dark:text-slate-400 text-sm">Projects Completed</p>
                   </div>
                 </>
               )}
             </div>
 
-            <div className="flex justify-center sm:justify-start">
+            <div className="flex justify-center sm:justify-start pt-4">
               <a href={resum_pdf} download="resume">
-                <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 shadow-lg shadow-blue-500/30">
-                  <FontAwesomeIcon icon={faDownload} className="text-white" />
+                <button className="bg-white text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-indigo-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 shadow-lg hover:shadow-white/20">
+                  <FontAwesomeIcon icon={faDownload} />
                   Download Resume
                 </button>
               </a>

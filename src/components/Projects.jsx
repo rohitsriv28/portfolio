@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Code, Link as LinkIcon, Loader, Github } from "lucide-react";
+import { Link as LinkIcon, Loader, Github } from "lucide-react";
 import { onSnapshot } from "firebase/firestore";
 import { projectsRef } from "../config/firebase.config";
 
@@ -27,7 +27,6 @@ const Projects = () => {
             ...doc.data(),
           }));
 
-          // Optional: Sort projects by date or priority
           const sortedProjects = projectsData.sort((a, b) => 
             (b.priority || 0) - (a.priority || 0)
           );
@@ -56,30 +55,13 @@ const Projects = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    
     const unsubscribe = getProjects();
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (unsubscribe) {
-        unsubscribe();
-      }
+      if (unsubscribe) unsubscribe();
     };
   }, [getProjects]);
-
-  const handleProjectFocus = (index) => {
-    setActiveProject(index);
-  };
-
-  const handleProjectBlur = () => {
-    setActiveProject(null);
-  };
-
-  const handleKeyPress = (e, index) => {
-    if (e.key === "Enter" || e.key === " ") {
-      setActiveProject(index === activeProject ? null : index);
-    }
-  };
 
   const filteredProjects =
     activeTab === "All"
@@ -96,10 +78,10 @@ const Projects = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-[50vh]">
         <div className="text-center">
-          <Loader className="animate-spin h-12 w-12 mx-auto text-blue-500 mb-4" />
-          <p className="text-gray-400">Loading projects...</p>
+          <Loader className="animate-spin h-10 w-10 mx-auto text-indigo-500 mb-4" />
+          <p className="text-slate-400">Loading projects...</p>
         </div>
       </div>
     );
@@ -107,14 +89,14 @@ const Projects = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-[50vh]">
         <div className="text-center">
-          <p className="text-red-500 mb-4 text-xl">{error}</p>
+          <p className="text-red-400 mb-4">{error}</p>
           <button
             onClick={getProjects}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
           >
-            Retry Loading
+            Retry
           </button>
         </div>
       </div>
@@ -122,35 +104,34 @@ const Projects = () => {
   }
 
   return (
-    <section 
-      id="projects" 
-      className="relative py-20 text-white overflow-hidden"
-    >
+    <section id="projects" className="relative pt-8 pb-20 bg-slate-50 dark:bg-transparent overflow-hidden transition-colors duration-300">
       <div className="container max-w-[1400px] mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-            My Projects
+        <div className="text-center mb-16 space-y-4">
+          <div className="inline-block px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 backdrop-blur-sm">
+            <span className="text-indigo-600 dark:text-indigo-400 font-medium text-sm">Portfolio</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
+            Featured Projects
           </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-light">
             A showcase of innovative solutions and creative digital experiences 
-            crafted with passion and precision
+            crafted with passion.
           </p>
         </div>
 
-        <div className="flex justify-center gap-4 mb-12">
+        <div className="flex justify-center gap-3 mb-12 flex-wrap">
           {["All", "Personal", "Professional", "Open Source"].map((tab) => (
             <button
               key={tab}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
                 activeTab === tab
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
-                  : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? "bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-600/20"
+                  : "bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-white"
               }`}
               onClick={() => {
                 setActiveTab(tab);
                 setCurrentPage(1);
               }}
-              aria-pressed={activeTab === tab}
             >
               {tab}
             </button>
@@ -163,53 +144,47 @@ const Projects = () => {
               {currentProjects.map((project, index) => (
                 <div
                   key={project.id}
-                  className="group relative overflow-hidden rounded-lg shadow-lg bg-gray-800 transition-all duration-300 hover:shadow-xl hover:shadow-blue-900/20"
-                  onMouseEnter={() => handleProjectFocus(index)}
-                  onMouseLeave={handleProjectBlur}
-                  tabIndex={0}
-                  role="button"
-                  aria-expanded={activeProject === index}
+                  className="group relative bg-white dark:bg-white/5 rounded-xl overflow-hidden hover:border-indigo-500/50 transition-all duration-300 hover:-translate-y-2 h-[400px] flex flex-col border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none"
+                  onMouseEnter={() => setActiveProject(index)}
+                  onMouseLeave={() => setActiveProject(null)}
                 >
-                  <div className="h-48 overflow-hidden">
+                  <div className="h-48 overflow-hidden relative">
                     <img
                       src={project.image || "/api/placeholder/400/320"}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       loading="lazy"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-60" />
                   </div>
 
-                  <div className="p-4 border-t border-gray-700">
-                    <h3 className="text-lg font-bold mb-1 truncate">
+                  <div className="p-5 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate">
                       {project.title}
                     </h3>
-                  </div>
-
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-b from-blue-900/90 to-black/90 p-6 flex flex-col justify-center transition-all duration-300 ${
-                      activeProject === index
-                        ? "opacity-100"
-                        : "opacity-0 pointer-events-none"
-                    }`}
-                  >
-                    <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 mb-4">
+                      {project.description}
+                    </p>
                     
-                    {project.description && (
-                      <p className="text-gray-300 mb-4 line-clamp-3">
-                        {project.description}
-                      </p>
-                    )}
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tags?.map((tag, tagIndex) => (
-                        <span
-                          key={tagIndex}
-                          className="px-3 py-1 bg-gray-700/50 text-sm rounded-full border border-gray-600"
-                        >
+                    <div className="flex flex-wrap gap-2 mt-auto">
+                      {project.tags?.slice(0, 3).map((tag, i) => (
+                        <span key={i} className="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/5">
                           {tag}
                         </span>
                       ))}
                     </div>
+                  </div>
+
+                  {/* Overlay */}
+                  <div
+                    className={`absolute inset-0 bg-slate-900/95 backdrop-blur-sm p-6 flex flex-col justify-center transition-all duration-300 ${
+                      activeProject === index ? "opacity-100" : "opacity-0 pointer-events-none"
+                    }`}
+                  >
+                    <h3 className="text-xl font-bold mb-3 text-white">{project.title}</h3>
+                    <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+                      {project.description}
+                    </p>
 
                     <div className="flex gap-4 mt-auto">
                       {project.link && (
@@ -217,10 +192,10 @@ const Projects = () => {
                           href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+                          className="flex-1 flex items-center justify-center gap-2 py-2 bg-indigo-600 rounded-lg text-white font-medium hover:bg-indigo-700 transition-colors"
                         >
-                          <LinkIcon size={20} className="mr-2" />
-                          Live Site
+                          <LinkIcon size={18} />
+                          Live Demo
                         </a>
                       )}
                       {project.gitLink && (
@@ -228,10 +203,10 @@ const Projects = () => {
                           href={project.gitLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center text-blue-400 hover:text-blue-300 transition-colors"
+                          className="flex items-center justify-center p-2 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-colors"
+                          title="View Code"
                         >
-                          <Github size={20} className="mr-2" />
-                          Source Code
+                          <Github size={20} />
                         </a>
                       )}
                     </div>
@@ -245,19 +220,19 @@ const Projects = () => {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded-lg bg-white/5 text-slate-300 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Previous
                 </button>
 
-                <span className="text-gray-300">
+                <span className="text-slate-400 text-sm">
                   Page {currentPage} of {totalPages}
                 </span>
 
                 <button
                   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded-lg bg-white/5 text-slate-300 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Next
                 </button>
@@ -265,10 +240,8 @@ const Projects = () => {
             )}
           </>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-400 text-xl">
-              No projects found in this category.
-            </p>
+          <div className="text-center py-12 glass-card rounded-2xl border-dashed border-2 border-white/10">
+            <p className="text-slate-400">No projects found in this category.</p>
           </div>
         )}
 
@@ -277,10 +250,10 @@ const Projects = () => {
             href="https://github.com/rohitsriv"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
           >
-            <Github className="inline-block mr-2" /> 
-            View All Projects on GitHub
+            <Github size={20} /> 
+            View All Projects
           </a>
         </div>
       </div>

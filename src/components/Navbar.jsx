@@ -7,274 +7,165 @@ import {
   faBriefcase,
   faGraduationCap,
   faEnvelope,
-  faMoon,
+  faBars,
+  faTimes,
   faSun,
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  initDarkMode,
-  toggleDarkMode,
-  setupSystemThemeListener,
-} from "../utils/darkMode";
+import { initDarkMode, toggleDarkMode } from "../utils/darkMode";
 
 const Navbar = () => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [activeSection, setActiveSection] = useState("main");
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => initDarkMode());
 
-  // Toggle dark mode
-  const handleToggleDarkMode = () => {
-    const newDarkModeState = toggleDarkMode(darkMode);
-    setDarkMode(newDarkModeState);
-  };
-
-  // Listen for system theme changes
-  useEffect(() => {
-    const cleanup = setupSystemThemeListener();
-    return cleanup;
-  }, []);
-
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
-  };
-
-  // Handle scroll to section
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const offset = 70; // Consistent offset
-      const sectionPosition = section.getBoundingClientRect().top;
-      window.scrollTo({
-        top: sectionPosition + window.scrollY - offset,
-        behavior: "smooth",
-      });
-      setShowMobileMenu(false);
-    }
-  };
-
-  // Handle navbar style changes on scroll
-  useEffect(() => {
-    const navbarEl = document.querySelector(".navbar");
-
-    const handleScroll = () => {
-      // Add scrolled class for background change
-      if (window.scrollY > 20) {
-        navbarEl.classList.add("scrolled");
-        setIsScrolled(true);
-      } else {
-        navbarEl.classList.remove("scrolled");
-        setIsScrolled(false);
-      }
-
-      // Calculate scroll progress for progress bar
-      const windowHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = (window.scrollY / windowHeight) * 100;
-      setScrollProgress(scrolled);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Track active section on scroll
+  // Handle navbar float effect on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = [
-        "main",
-        "about",
-        "skill",
-        "qualification",
-        "projects",
-        "contact",
-      ];
-      let inViewSection = "main";
-
-      for (const sectionId of sections) {
-        const section = document.getElementById(sectionId);
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            inViewSection = sectionId;
-            break;
-          }
+      setIsScrolled(window.scrollY > 50);
+      
+      // Update active section
+      const sections = ["main", "about", "skill", "qualification", "projects", "contact"];
+      const current = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
         }
-      }
-
-      setActiveSection(inViewSection);
+        return false;
+      });
+      if (current) setActiveSection(current);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle escape key to close mobile menu
-  useEffect(() => {
-    const handleEscKey = (e) => {
-      if (e.key === "Escape" && showMobileMenu) {
-        setShowMobileMenu(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleEscKey);
-    return () => window.removeEventListener("keydown", handleEscKey);
-  }, [showMobileMenu]);
-
-  // Navigation items
   const navItems = [
     { id: "main", icon: faHome, label: "Home" },
     { id: "about", icon: faUser, label: "About" },
     { id: "skill", icon: faCog, label: "Skills" },
-    { id: "qualification", icon: faGraduationCap, label: "Qualification" },
+    { id: "qualification", icon: faGraduationCap, label: "Education" },
     { id: "projects", icon: faBriefcase, label: "Projects" },
     { id: "contact", icon: faEnvelope, label: "Contact" },
   ];
 
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 70;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+      setMobileMenuOpen(false);
+    }
+  };
+
+  const handleThemeToggle = () => {
+    setDarkMode(toggleDarkMode(darkMode));
+  };
+
   return (
-    <nav className="navbar fixed top-0 left-0 w-full z-50 transition-all duration-300">
-      {/* Scroll Progress Bar */}
-      <div
-        className="h-1 bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300"
-        style={{ width: `${scrollProgress}%` }}
-      />
+    <>
+      {/* Theme Toggle - Fixed Top Right */}
+      <div className="fixed top-6 right-6 z-50 hidden md:block">
+        <button
+          onClick={handleThemeToggle}
+          className="w-12 h-12 rounded-full flex items-center justify-center bg-slate-900/50 backdrop-blur-md border border-white/10 text-yellow-400 hover:bg-white/10 hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300"
+          aria-label="Toggle Dark Mode"
+        >
+          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className={`text-xl ${darkMode ? "animate-spin-slow" : ""}`} />
+        </button>
+      </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <div
-            className="text-2xl font-bold dark:text-white text-gray-900 cursor-pointer flex items-center"
-            onClick={() => scrollToSection("main")}
-          >
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text transition-all hover:from-blue-300 hover:to-purple-400">
-              Rohit
-            </span>
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`
-                  px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300
-                  hover:bg-gray-200 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white flex items-center
-                  ${
-                    activeSection === item.id
-                      ? "dark:text-white text-gray-900 dark:bg-gray-700/30 bg-gray-200 shadow-md"
-                      : "dark:text-gray-300 text-gray-700"
-                  }
-                `}
-              >
-                <FontAwesomeIcon icon={item.icon} className="mr-2" />
-                {item.label}
-              </button>
-            ))}
-
-            {/* Dark Mode Toggle */}
+      {/* Desktop Floating Navbar */}
+      <div className={`fixed top-6 left-0 right-0 z-40 flex justify-center transition-all duration-300`}>
+        <nav className={`
+          hidden md:flex items-center gap-1 rounded-full 
+          transition-all duration-500 ease-in-out border border-slate-200 dark:border-white/10
+          ${isScrolled 
+            ? 'px-4 py-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg shadow-indigo-500/10 scale-90' 
+            : 'px-4 py-2 md:px-4 md:py-2 lg:px-6 lg:py-3 bg-white/40 dark:bg-slate-900/40 backdrop-blur-sm scale-100'}
+        `}>
+          {navItems.map((item) => (
             <button
-              onClick={handleToggleDarkMode}
-              className="ml-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300
-                hover:bg-gray-200 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300"
-              aria-label="Toggle dark mode"
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              className={`
+                relative md:px-3 lg:px-5 py-2 rounded-full md:text-xs lg:text-sm font-medium transition-all duration-300
+                flex items-center gap-2 group overflow-hidden
+                ${activeSection === item.id 
+                  ? 'text-indigo-600 dark:text-white' 
+                  : 'text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'}
+              `}
             >
-              <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            {/* Dark Mode Toggle (Mobile) */}
-            <button
-              onClick={handleToggleDarkMode}
-              className="mr-2 p-2 rounded-lg text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700/50 transition-all"
-              aria-label="Toggle dark mode"
-            >
-              <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
-            </button>
-
-            <button
-              onClick={toggleMobileMenu}
-              className="text-gray-700 dark:text-white p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700/50 transition-all focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              {showMobileMenu ? (
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                </svg>
+              <FontAwesomeIcon 
+                icon={item.icon} 
+                className={`transition-transform duration-300 ${activeSection === item.id ? 'scale-110 text-indigo-500 dark:text-indigo-400' : 'group-hover:scale-110'}`} 
+              />
+              <span className="relative z-10">{item.label}</span>
+              
+              {/* Active Background Pill */}
+              {activeSection === item.id && (
+                <div className="absolute inset-0 -z-0 bg-indigo-50 dark:bg-white/10 border border-indigo-100 dark:border-white/5 rounded-full shadow-[0_0_15px_rgba(99,102,241,0.3)]" />
               )}
             </button>
-          </div>
-        </div>
+          ))}
+        </nav>
+      </div>
 
-        {/* Mobile Menu */}
-        <div
-          className={`
-            md:hidden overflow-hidden transition-all duration-300 ease-in-out
-            ${
-              showMobileMenu ? "max-h-96 opacity-100 pb-4" : "max-h-0 opacity-0"
-            }
-          `}
-        >
-          <div className="dark:bg-gray-800/95 bg-white/95 backdrop-blur-lg rounded-lg shadow-lg p-2 dark:border-gray-700/50 border-gray-200">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`
-                  w-full text-left px-4 py-3 rounded-md my-1 flex items-center
-                  transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-700/70
-                  ${
-                    activeSection === item.id
-                      ? "dark:bg-gray-700/50 bg-gray-100 dark:text-white text-gray-900 font-medium shadow-sm"
-                      : "dark:text-gray-300 text-gray-700"
-                  }
-                `}
-              >
-                <FontAwesomeIcon icon={item.icon} className="mr-3 w-5" />
-                {item.label}
-              </button>
-            ))}
-          </div>
+      {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 w-full z-50 p-4 flex justify-between items-center bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-white/5">
+        <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+          Rohit
+        </span>
+        <div className="flex items-center gap-4">
+           {/* Mobile Theme Toggle */}
+           <button
+            onClick={handleThemeToggle}
+            className="text-yellow-500 dark:text-yellow-400"
+            aria-label="Toggle Dark Mode"
+          >
+            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} size="lg" />
+          </button>
+
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-slate-700 dark:text-white p-2"
+          >
+            <FontAwesomeIcon icon={mobileMenuOpen ? faTimes : faBars} size="lg" />
+          </button>
         </div>
       </div>
 
-      {/* Background Blur (conditional) */}
-      <div
-        className={`
-          absolute inset-0 -z-10 transition-opacity duration-300
-          dark:bg-gradient-to-b dark:from-gray-900/90 dark:to-gray-800/85 
-          bg-gradient-to-b from-white/90 to-gray-100/85 backdrop-blur-md
-          ${isScrolled ? "opacity-100" : "opacity-0"}
-        `}
-      />
-    </nav>
+      {/* Mobile Menu Overlay */}
+      <div className={`
+        md:hidden fixed inset-0 z-40 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl transition-all duration-300 flex items-center justify-center
+        ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+      `}>
+        <div className="flex flex-col gap-8 text-center">
+          {navItems.map((item, index) => (
+            <button
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              className={`
+                text-2xl font-medium transition-all duration-300 flex items-center justify-center gap-4
+                ${activeSection === item.id ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-400'}
+                hover:text-indigo-500 dark:hover:text-white transform hover:scale-110
+              `}
+              style={{ transitionDelay: `${index * 50}ms` }}
+            >
+              <FontAwesomeIcon icon={item.icon} className="text-xl" />
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 
