@@ -17,17 +17,17 @@ const Projects = () => {
   const getProjects = useCallback(() => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const unsubscribe = onSnapshot(
-        projectsRef, 
+        projectsRef,
         (querySnapshot) => {
           const projectsData = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
 
-          const sortedProjects = projectsData.sort((a, b) => 
+          const sortedProjects = projectsData.sort((a, b) =>
             (b.priority || 0) - (a.priority || 0)
           );
 
@@ -66,7 +66,7 @@ const Projects = () => {
   const filteredProjects =
     activeTab === "All"
       ? projects
-      : projects.filter((project) => project.category === activeTab);
+      : projects.filter((project) => project.category?.toLowerCase() === activeTab.toLowerCase());
 
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
@@ -114,20 +114,19 @@ const Projects = () => {
             Featured Projects
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-light">
-            A showcase of innovative solutions and creative digital experiences 
+            A showcase of innovative solutions and creative digital experiences
             crafted with passion.
           </p>
         </div>
 
         <div className="flex justify-center gap-3 mb-12 flex-wrap">
-          {["All", "Personal", "Professional", "Open Source"].map((tab) => (
+          {["All", "Personal", "Professional"].map((tab) => (
             <button
               key={tab}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
-                activeTab === tab
-                  ? "bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-600/20"
-                  : "bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-white"
-              }`}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${activeTab === tab
+                ? "bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-600/20"
+                : "bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-white"
+                }`}
               onClick={() => {
                 setActiveTab(tab);
                 setCurrentPage(1);
@@ -144,11 +143,11 @@ const Projects = () => {
               {currentProjects.map((project, index) => (
                 <div
                   key={project.id}
-                  className="group relative bg-white dark:bg-white/5 rounded-xl overflow-hidden hover:border-indigo-500/50 transition-all duration-300 hover:-translate-y-2 h-[400px] flex flex-col border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none"
+                  className="group relative bg-white dark:bg-white/5 rounded-xl overflow-hidden hover:border-indigo-500/50 transition-all duration-300 hover:-translate-y-2 h-[320px] flex flex-col border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none"
                   onMouseEnter={() => setActiveProject(index)}
                   onMouseLeave={() => setActiveProject(null)}
                 >
-                  <div className="h-48 overflow-hidden relative">
+                  <div className="h-40 overflow-hidden relative">
                     <img
                       src={project.image || "/api/placeholder/400/320"}
                       alt={project.title}
@@ -165,7 +164,7 @@ const Projects = () => {
                     <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 mb-4">
                       {project.description}
                     </p>
-                    
+
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {project.tags?.slice(0, 3).map((tag, i) => (
                         <span key={i} className="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/5">
@@ -177,9 +176,8 @@ const Projects = () => {
 
                   {/* Overlay */}
                   <div
-                    className={`absolute inset-0 bg-slate-900/95 backdrop-blur-sm p-6 flex flex-col justify-center transition-all duration-300 ${
-                      activeProject === index ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
+                    className={`absolute inset-0 bg-slate-900/95 backdrop-blur-sm p-6 flex flex-col justify-center transition-all duration-300 ${activeProject === index ? "opacity-100" : "opacity-0 pointer-events-none"
+                      }`}
                   >
                     <h3 className="text-xl font-bold mb-3 text-white">{project.title}</h3>
                     <p className="text-slate-300 text-sm mb-6 leading-relaxed">
@@ -252,7 +250,7 @@ const Projects = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
           >
-            <Github size={20} /> 
+            <Github size={20} />
             View All Projects
           </a>
         </div>
