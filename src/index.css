@@ -1,17 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  font-family: 'Outfit', sans-serif;
-  color-scheme: dark;
+  font-family: "Inter", sans-serif;
+
+  /* Light Theme Colors */
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --accent-primary: #6366f1;
+  --accent-secondary: #06b6d4;
+  --border-color: #e2e8f0;
+}
+
+.dark {
+  /* Dark Theme Colors */
+  --bg-primary: #0a0f1c;
+  --bg-surface: #111827;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent-primary: #6366f1;
+  --accent-secondary: #06b6d4;
+  --border-color: #1e293b;
 }
 
 body {
-  @apply bg-slate-950 text-slate-50;
-  background-image: 
-    radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.15) 0%, transparent 25%), 
-    radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.15) 0%, transparent 25%);
+  @apply bg-slate-50 text-slate-900 dark:bg-[#0A0F1C] dark:text-slate-100;
   background-attachment: fixed;
 }
 
@@ -19,37 +35,56 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Glass effect utilities */
-.glass-card {
-  @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl;
+/* Card utilities - Solid backgrounds */
+.card {
+  @apply bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg;
 }
 
-.glass-nav {
-  @apply bg-slate-900/80 backdrop-blur-md border-b border-white/5;
+.card-elevated {
+  @apply bg-white dark:bg-gray-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-xl;
+}
+
+/* Navbar - Solid background */
+.nav-solid {
+  @apply bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800;
 }
 
 /* Animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-spin-slow {
@@ -62,14 +97,36 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-950;
+  @apply bg-slate-100 dark:bg-slate-900;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-indigo-500/50 rounded-full hover:bg-indigo-500;
+  @apply bg-indigo-500 rounded-full hover:bg-indigo-600;
 }
 
-/* Text Gradients */
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400;
+/* Section Title - Solid Indigo */
+.section-title {
+  @apply text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400;
+}
+
+/* Badge styling */
+.badge {
+  @apply inline-block px-4 py-1.5 rounded-full text-sm font-medium;
+  @apply bg-indigo-50 text-indigo-600 border border-indigo-100;
+  @apply dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800;
+}
+
+/* Button Primary - Solid Indigo */
+.btn-primary {
+  @apply px-6 py-3 rounded-full font-medium transition-all duration-300;
+  @apply bg-indigo-600 text-white hover:bg-indigo-700;
+  @apply shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40;
+}
+
+/* Button Secondary - Outlined */
+.btn-secondary {
+  @apply px-6 py-3 rounded-full font-medium transition-all duration-300;
+  @apply bg-transparent border border-slate-300 text-slate-700;
+  @apply hover:border-indigo-500 hover:text-indigo-600;
+  @apply dark:border-slate-600 dark:text-slate-300 dark:hover:border-indigo-400 dark:hover:text-indigo-400;
 }

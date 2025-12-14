@@ -1,13 +1,9 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faDownload,
-  faCode,
-  faLayerGroup,
-} from "@fortawesome/free-solid-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { onSnapshot } from "firebase/firestore";
 import { statsRef } from "../config/firebase.config";
-import img from "@assets/OIG7.png";
+import img from "@assets/Dec_2023.jpg";
 import resum_pdf from "@assets/My_Resume.pdf";
 
 const CountUp = ({ end, duration = 2000 }) => {
@@ -31,7 +27,6 @@ const CountUp = ({ end, duration = 2000 }) => {
     };
 
     animationFrame = requestAnimationFrame(animate);
-
     return () => cancelAnimationFrame(animationFrame);
   }, [end, duration]);
 
@@ -103,24 +98,25 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="pt-8 pb-20 bg-slate-50 dark:bg-transparent relative overflow-hidden transition-colors duration-300">
+    <section id="about" className="pt-8 pb-20 bg-slate-50 dark:bg-[#0A0F1C] relative overflow-hidden transition-colors duration-300">
       <div className="container max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
+        {/* Section Header */}
         <div className="text-center mb-10 space-y-3">
-          <div className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-sm">
-            <span className="text-purple-600 dark:text-purple-400 font-medium text-sm">My Journey</span>
+          <div className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800">
+            <span className="text-indigo-600 dark:text-indigo-400 font-medium text-sm">My Journey</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
+          <h2 className="text-4xl md:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
             About Me
           </h2>
         </div>
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+          {/* Profile Image */}
           <div
-            className="relative w-72 h-72 md:w-96 md:h-96 rounded-2xl overflow-hidden glass-card transform transition-all duration-300 hover:scale-105 shadow-2xl dark:shadow-none"
+            className="relative w-72 h-72 md:w-96 md:h-96 rounded-2xl overflow-hidden bg-white dark:bg-gray-800 border-4 border-white dark:border-gray-700 transform transition-all duration-300 hover:scale-105 shadow-2xl"
             ref={profileRef}
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 backdrop-blur-[2px] z-10"></div>
             <img
               src={img}
               alt="Profile"
@@ -129,35 +125,35 @@ const About = () => {
             />
           </div>
 
+          {/* Content */}
           <div className="text-center lg:text-left max-w-2xl space-y-8">
-            <h3 className="text-3xl font-bold text-slate-900 dark:text-white">
-              Hi, I&apos;m <span className="text-indigo-600 dark:text-indigo-400">Rohit!</span>
-            </h3>
-            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-light">
-              I am a passionate web developer specializing in React and modern
-              web technologies. My mission is to create intuitive,
-              user-friendly, and visually stunning web experiences. Every
-              project I undertake reflects my dedication to functionality and
-              design.
+            <p className="text-justify text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-light">
+              I am a frontend developer who enjoys creating clean, intuitive, and user-focused web experiences.
+              Alongside building interfaces, I’m also developing strong skills in data analysis—because great
+              products are not just well designed; they’re driven by meaningful insights. I value clarity,
+              thoughtful execution, and building digital solutions that are both visually engaging and
+              backed by data-driven understanding.
             </p>
 
+
+            {/* Stats Cards - Solid backgrounds */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-6">
               {isLoading ? (
                 <>
                   {[1, 2].map((item) => (
-                    <div key={item} className="h-32 w-44 rounded-xl bg-slate-200 dark:bg-white/5 animate-pulse" />
+                    <div key={item} className="h-32 w-44 rounded-xl bg-slate-200 dark:bg-slate-800 animate-pulse" />
                   ))}
                 </>
               ) : (
                 <>
-                  <div className="bg-white dark:bg-white/5 p-6 rounded-xl text-center w-48 hover:border-indigo-500/50 transition-all duration-300 group border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none">
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl text-center w-48 hover:border-indigo-500 transition-all duration-300 group border border-slate-200 dark:border-slate-700 shadow-lg">
                     <h4 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       <CountUp end={stats.experience} />+
                     </h4>
                     <p className="text-slate-600 dark:text-slate-400 text-sm">Years of Experience</p>
                   </div>
-                  <div className="bg-white dark:bg-white/5 p-6 rounded-xl text-center w-48 hover:border-purple-500/50 transition-all duration-300 group border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none">
-                    <h4 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl text-center w-48 hover:border-cyan-500 transition-all duration-300 group border border-slate-200 dark:border-slate-700 shadow-lg">
+                    <h4 className="text-4xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                       <CountUp end={stats.totalProjects} />+
                     </h4>
                     <p className="text-slate-600 dark:text-slate-400 text-sm">Projects Completed</p>
@@ -166,9 +162,10 @@ const About = () => {
               )}
             </div>
 
+            {/* Download Button - Solid */}
             <div className="flex justify-center sm:justify-start pt-4">
               <a href={resum_pdf} download="resume">
-                <button className="bg-white text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-indigo-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 shadow-lg hover:shadow-white/20">
+                <button className="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold hover:bg-indigo-700 transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 shadow-lg shadow-indigo-500/25">
                   <FontAwesomeIcon icon={faDownload} />
                   Download Resume
                 </button>

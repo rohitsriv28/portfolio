@@ -2,7 +2,6 @@ import React, { useEffect, lazy, Suspense } from "react";
 import ScrollTopOnRefresh from "./utils/ScrollToTop";
 import visitorCount from "./utils/visitorCount";
 import Navbar from "./components/Navbar";
-import RandomShape from "./components/RandomShapes";
 import Header from "./components/Header";
 
 // Lazy loaded components
@@ -16,8 +15,8 @@ const Footer = lazy(() => import("./components/Footer"));
 const LoadingFallback = () => (
   <div className="py-16 px-4 flex justify-center items-center">
     <div className="animate-pulse flex flex-col items-center">
-      <div className="h-8 w-32 bg-gray-300 dark:bg-gray-700 rounded mb-4"></div>
-      <div className="h-4 w-48 bg-gray-200 dark:bg-gray-800 rounded"></div>
+      <div className="h-8 w-32 bg-slate-200 dark:bg-slate-700 rounded mb-4"></div>
+      <div className="h-4 w-48 bg-slate-100 dark:bg-slate-800 rounded"></div>
     </div>
   </div>
 );
@@ -70,12 +69,11 @@ const App = () => {
   }, []);
 
   return (
-    <div className="transition-colors duration-300 dark:bg-gray-900 bg-white">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0A0F1C] text-slate-900 dark:text-slate-100 transition-colors duration-300">
       <ScrollTopOnRefresh />
 
       {/* Critical components */}
       <Navbar />
-      <RandomShape />
       <Header />
 
       {/* Lazy loaded components */}

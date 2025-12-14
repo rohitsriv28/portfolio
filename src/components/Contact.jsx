@@ -1,214 +1,120 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
   faEnvelope,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-import emailjs from "@emailjs/browser";
+
+const EMAIL = "rohitraj2002ind@gmail.com";
 
 function Contact() {
-  const formRef = useRef();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const message = `
-<html>
-  <body>
-    <h3>New Contact Form Submission</h3>
-    <p><strong>Name:</strong> ${formData.name}</p>
-    <p><strong>Email:</strong> ${formData.email}</p>
-    <p><strong>Subject:</strong> ${formData.subject}</p>
-    <p><strong>Message:</strong></p>
-    <p>${formData.message.replace(/\n/g, "<br>")}</p>
-  </body>
-</html>
-`;
-
-    const templateParam = {
-      subject: formData.subject || "New Contact Form Submission",
-      message: message,
-      to_email: formData.email,
-      from_name: formData.name,
-      reply_to: formData.email,
-    };
-
-    try {
-      const result = await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParam,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      if (result.text === "OK") {
-        setSubmitStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        setSubmitStatus("error");
-      }
-    } catch (error) {
-      console.error(error);
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
-    }
-  };
+  const subject = encodeURIComponent("Project / opportunity from your portfolio");
+  const body = encodeURIComponent(
+    "Hi Rohit,\n\nI came across your portfolio and would like to connect regarding..."
+  );
+  const mailtoHref = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
 
   return (
-    <section id="contact" className="pt-8 pb-20 bg-slate-50 dark:bg-transparent relative overflow-hidden transition-colors duration-300">
+    <section
+      id="contact"
+      className="pt-8 pb-20 bg-slate-50 dark:bg-[#0A0F1C] relative overflow-hidden transition-colors duration-300"
+    >
       <div className="container max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
-          <div className="inline-block px-4 py-1.5 rounded-full border border-pink-500/30 bg-pink-500/10 backdrop-blur-sm">
-            <span className="text-pink-600 dark:text-pink-400 font-medium text-sm">Get in Touch</span>
+          <div className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800">
+            <span className="text-indigo-600 dark:text-indigo-400 font-medium text-sm">Get in Touch</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
+          <h2 className="text-4xl md:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
             Contact Me
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-light">
-            Have a project in mind or want to discuss collaboration opportunities?
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed font-light">
+            Recruiters, teams, and collaborators — the fastest way to reach me is by email.
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Left Side (Contact Details) */}
-          <div className="w-full lg:w-1/3 space-y-6">
-            <div className="bg-white dark:bg-white/5 p-6 rounded-xl hover:border-indigo-500/50 transition-all duration-300 group border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none">
-              <div className="flex items-start gap-5">
-                <div className="bg-indigo-100 dark:bg-indigo-600/20 p-4 rounded-xl text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 lg:items-stretch">
+          {/* Left Side - Contact Details */}
+          <div className="w-full lg:w-1/3 flex flex-col gap-6">
+            {/* Location Card */}
+            <div className="relative bg-white dark:bg-gray-800/90 backdrop-blur-md p-6 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-[1.02] flex-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-indigo-500/0 to-indigo-500/5 dark:to-indigo-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-start gap-5 h-full">
+                <div className="bg-gradient-to-br from-indigo-100 to-indigo-50 dark:from-indigo-900/50 dark:to-indigo-800/30 p-4 rounded-2xl text-indigo-600 dark:text-indigo-400 group-hover:from-indigo-600 group-hover:to-indigo-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
                   <FontAwesomeIcon icon={faLocationDot} className="text-xl" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-1 text-slate-900 dark:text-white">Location</h3>
-                  <p className="text-slate-600 dark:text-slate-400">Raxaul, India | Birgunj, Nepal</p>
+                <div className="flex-1 space-y-1 flex flex-col justify-center">
+                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Location
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    Raxaul, India · Birgunj, Nepal
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-500">
+                    Available online · comfortable working remotely across time zones.
+                  </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-white/5 p-6 rounded-xl hover:border-purple-500/50 transition-all duration-300 group border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-none">
-              <div className="flex items-start gap-5">
-                <div className="bg-purple-100 dark:bg-purple-600/20 p-4 rounded-xl text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
+            {/* Email Card */}
+            <div className="relative bg-white dark:bg-gray-800/90 backdrop-blur-md p-6 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-cyan-400 dark:hover:border-cyan-500 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-[1.02] flex-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/5 dark:to-cyan-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-start gap-5 h-full">
+                <div className="bg-gradient-to-br from-cyan-100 to-cyan-50 dark:from-cyan-900/50 dark:to-cyan-800/30 p-4 rounded-2xl text-cyan-600 dark:text-cyan-400 group-hover:from-cyan-600 group-hover:to-cyan-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
                   <FontAwesomeIcon icon={faEnvelope} className="text-xl" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-1 text-slate-900 dark:text-white">Email</h3>
-                  <p className="text-slate-600 dark:text-slate-400 break-all">rohitraj2002ind@gmail.com</p>
+                <div className="space-y-2 flex-1 flex flex-col justify-center">
+                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Email
+                  </h3>
+                  <a
+                    href={mailtoHref}
+                    className="text-slate-600 dark:text-slate-400 break-all text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
+                  >
+                    {EMAIL}
+                  </a>
+                  <p className="text-xs text-slate-500 dark:text-slate-500">
+                    I&apos;m frequently online and usually respond within a day.
+                  </p>
                 </div>
               </div>
-            </div>
-            
-            {/* Decoration */}
-            <div className="relative h-64 w-full rounded-2xl overflow-hidden glass-card mt-8 hidden lg:block border border-slate-200 dark:border-white/10">
-               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 dark:from-indigo-500/20 dark:via-purple-500/20 dark:to-pink-500/20 animate-pulse-glow" />
-               <div className="absolute inset-0 flex items-center justify-center text-center p-6">
-                  <p className="text-slate-500 dark:text-slate-300 italic">"The only way to do great work is to love what you do."</p>
-               </div>
             </div>
           </div>
 
-          {/* Right Side (Contact Form) */}
-          <div className="w-full lg:w-2/3">
-            <div className="bg-white dark:bg-white/5 p-8 rounded-2xl border border-slate-200 dark:border-white/10 shadow-xl dark:shadow-none">
-              <h3 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Send me a message</h3>
-              
-              {submitStatus === "success" && (
-                <div className="bg-green-100 dark:bg-green-500/10 border border-green-500/50 text-green-700 dark:text-green-400 p-4 rounded-xl mb-6 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-green-500" />
-                  Thank you! I'll get back to you soon.
-                </div>
-              )}
+          {/* Right Side - CTA panel */}
+          <div className="w-full lg:w-2/3 flex">
+            <div className="relative bg-gradient-to-br from-white via-slate-50/50 to-indigo-50/30 dark:from-gray-800/90 dark:via-gray-800/80 dark:to-indigo-900/10 backdrop-blur-md p-6 sm:p-7 md:p-8 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex flex-col justify-center group overflow-hidden w-full">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-cyan-500/0 to-indigo-500/5 dark:to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative space-y-4">
+                <h3 className="text-2xl sm:text-3xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight">
+                  Let&apos;s make something amazing together.
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                  Whether you&apos;re hiring for a role, looking for a freelance developer,
+                  or just want to discuss an idea, you can reach me directly via email — just say hi and tell me what you have in mind.
+                </p>
 
-              {submitStatus === "error" && (
-                <div className="bg-red-100 dark:bg-red-500/10 border border-red-500/50 text-red-700 dark:text-red-400 p-4 rounded-xl mb-6 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-red-500" />
-                  Something went wrong. Please try again.
+                <div className="flex flex-wrap items-center gap-4 pt-1">
+                  <a
+                    href={mailtoHref}
+                    className="inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold hover:from-indigo-700 hover:to-indigo-600 active:scale-95 transition-all duration-300 shadow-2xl shadow-indigo-500/40 hover:shadow-3xl hover:shadow-indigo-500/50 group/btn"
+                  >
+                    Email Me
+                    <FontAwesomeIcon
+                      icon={faPaperPlane}
+                      className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300"
+                    />
+                  </a>
                 </div>
-              )}
 
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm text-slate-600 dark:text-slate-400 font-medium">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Your Name"
-                      required
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-white/10 transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm text-slate-600 dark:text-slate-400 font-medium">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="your@email.com"
-                      required
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-white/10 transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-                    />
-                  </div>
+                <div className="pt-3 border-t-2 border-slate-200 dark:border-slate-700/50">
+                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-500 leading-relaxed">
+                    Prefer another channel? You can also connect with me on LinkedIn or GitHub using the links in the footer.
+                  </p>
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="subject" className="text-sm text-slate-600 dark:text-slate-400 font-medium">Subject</label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="Project Inquiry"
-                    className="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-white/10 transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm text-slate-600 dark:text-slate-400 font-medium">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows="4"
-                    placeholder="Describe your project..."
-                    required
-                    className="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-white/10 transition-all text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 resize-none"
-                  ></textarea>
-                </div>
-                
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center gap-2 font-bold shadow-lg shadow-indigo-500/25 hover:-translate-y-1 disabled:opacity-70 disabled:hover:translate-y-0"
-                >
-                  {isSubmitting ? "Sending..." : (
-                    <>
-                      Send Message
-                      <FontAwesomeIcon icon={faPaperPlane} />
-                    </>
-                  )}
-                </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
