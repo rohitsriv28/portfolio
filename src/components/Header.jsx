@@ -49,10 +49,17 @@ const Header = () => {
               </div>
 
               {/* Name - Solid Indigo highlight */}
-              <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+              {/* <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
                 Hi, I'm <br />
                 <span className="text-indigo-600 dark:text-indigo-400">Rohit Raj Srivastava</span>
+              </h1> */}
+              <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                Hi, I'm <br />
+                <span className="text-indigo-600 dark:text-indigo-400 whitespace-nowrap">
+                  Rohit Raj Srivastava
+                </span>
               </h1>
+
 
               <p className="text-justify text-l sm:text-2xl text-slate-600 dark:text-slate-400 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
                 Frontend-focused, data-curious, and committed to turning ideas into impactful digital solutions.              </p>

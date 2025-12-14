@@ -27,9 +27,20 @@ const Projects = () => {
             ...doc.data(),
           }));
 
-          const sortedProjects = projectsData.sort((a, b) =>
-            (b.priority || 0) - (a.priority || 0)
-          );
+          // Sort by createdAt (newest first) for LIFO order, then by priority
+          const sortedProjects = projectsData.sort((a, b) => {
+            // First, sort by createdAt timestamp (newest first)
+            const dateA = a.createdAt?.toDate?.() || a.createdAt || 0;
+            const dateB = b.createdAt?.toDate?.() || b.createdAt || 0;
+            const timeA = dateA instanceof Date ? dateA.getTime() : (typeof dateA === 'number' ? dateA : 0);
+            const timeB = dateB instanceof Date ? dateB.getTime() : (typeof dateB === 'number' ? dateB : 0);
+
+            if (timeB !== timeA) {
+              return timeB - timeA; // Newest first (LIFO)
+            }
+            // If same timestamp or no timestamp, fall back to priority
+            return (b.priority || 0) - (a.priority || 0);
+          });
 
           setProjects(sortedProjects);
           setLoading(false);
