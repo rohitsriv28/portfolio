@@ -189,15 +189,18 @@ const Projects = () => {
 
                   {/* Hover Overlay */}
                   <div
-                    className={`absolute inset-0 bg-slate-900/95 p-6 flex flex-col justify-center transition-all duration-300 ${activeProject === index ? "opacity-100" : "opacity-0 pointer-events-none"
+                    className={`absolute inset-0 bg-slate-900/95 p-6 flex flex-col transition-all duration-300 ${activeProject === index ? "opacity-100" : "opacity-0 pointer-events-none"
                       }`}
                   >
-                    <h3 className="text-xl font-bold mb-3 text-white">{project.title}</h3>
-                    <p className="text-slate-300 text-sm mb-6 leading-relaxed">
-                      {project.description}
-                    </p>
+                    <h3 className="text-xl font-bold mb-3 text-white flex-shrink-0">{project.title}</h3>
 
-                    <div className="flex gap-4 mt-auto">
+                    <div className="overflow-y-auto mb-4 pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-indigo-500/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+                      <p className="text-slate-300 text-sm leading-relaxed">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <div className="flex gap-4 mt-auto flex-shrink-0">
                       {project.link && (
                         <a
                           href={project.link}
