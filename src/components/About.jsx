@@ -38,8 +38,7 @@ const About = () => {
     experience: 0,
     totalProjects: 0,
   });
-  const resumeDownloadLink =
-    "https://drive.google.com/uc?export=download&id=1_Ap7eL3QgtTSvtgUy8uxk884ZQFUm2gq";
+  const resumeDownloadLink = "https://drive.google.com/uc?export=download&id=1_Ap7eL3QgtTSvtgUy8uxk884ZQFUm2gq";
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchStats = useCallback(() => {

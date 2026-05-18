@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebookF,
@@ -7,6 +8,7 @@ import {
   faXTwitter,
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
+import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import img from "@assets/Gemini_Generated_My_Image.png";
 
 const Header = () => {
@@ -22,9 +24,6 @@ const Header = () => {
       contactSection.scrollIntoView({ behavior: "smooth" });
     }
   };
-
-  const resumeViewLink =
-    "https://drive.google.com/file/d/1_Ap7eL3QgtTSvtgUy8uxk884ZQFUm2gq/preview";
 
   const socialLinks = [
     {
@@ -100,15 +99,13 @@ const Header = () => {
               }`}
             >
               {/* Primary Button – View Resume */}
-              <a
-                href={resumeViewLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 rounded-full bg-indigo-600 text-white font-medium 
-  hover:bg-indigo-700 transition-all"
+              <Link
+                to="/resume"
+                className="flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/25"
               >
-                View Resume
-              </a>
+                <FontAwesomeIcon icon={faFileAlt} />
+                <span>View Resume</span>
+              </Link>
 
               {/* Secondary Button – Let's Talk */}
               <button
