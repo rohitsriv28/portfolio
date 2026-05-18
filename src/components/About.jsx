@@ -4,7 +4,6 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { onSnapshot } from "firebase/firestore";
 import { statsRef } from "../config/firebase.config";
 import img from "@assets/Dec_2023.jpg";
-import resum_pdf from "@assets/My_Resume.pdf";
 
 const CountUp = ({ end, duration = 2000 }) => {
   const [count, setCount] = useState(0);
@@ -39,6 +38,8 @@ const About = () => {
     experience: 0,
     totalProjects: 0,
   });
+  const resumeDownloadLink =
+    "https://drive.google.com/uc?export=download&id=1_Ap7eL3QgtTSvtgUy8uxk884ZQFUm2gq";
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchStats = useCallback(() => {
@@ -62,7 +63,7 @@ const About = () => {
         console.error("Error fetching stats:", error);
         setStats({ experience: 0, totalProjects: 0 });
         setIsLoading(false);
-      }
+      },
     );
 
     return unsubscribe;
@@ -138,27 +139,32 @@ const About = () => {
 
             {/* Main paragraph */}
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-light">
-              I build clean, intuitive web interfaces using modern frontend tools, and I enjoy
-              backing design decisions with data. For me, good products balance thoughtful UX,
-              solid engineering, and insights that come from actually looking at the numbers.
+              I build clean, intuitive web interfaces using modern frontend
+              tools, and I enjoy backing design decisions with data. For me,
+              good products balance thoughtful UX, solid engineering, and
+              insights that come from actually looking at the numbers.
             </p>
 
             {/* Bullet points */}
             <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-indigo-500">✓</span>
-                <span>User-centric UI with a focus on clarity and accessibility.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-indigo-500">✓</span>
                 <span>
-                  Modern frontend stack: React, JavaScript (ES6+), HTML, and CSS.
+                  User-centric UI with a focus on clarity and accessibility.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-indigo-500">✓</span>
                 <span>
-                  Data-informed decisions through basic analysis and experiment-driven thinking.
+                  Modern frontend stack: React, JavaScript (ES6+), HTML, and
+                  CSS.
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-indigo-500">✓</span>
+                <span>
+                  Data-informed decisions through basic analysis and
+                  experiment-driven thinking.
                 </span>
               </li>
             </ul>
@@ -198,7 +204,7 @@ const About = () => {
               {/* Buttons */}
               <div className="flex flex-col items-center lg:items-start gap-4">
                 {/* Download Resume */}
-                <a href={resum_pdf} download="resume" className="w-[200px]">
+                <a href={resumeDownloadLink} className="w-[200px]">
                   <button className="w-full bg-indigo-600 text-white px-7 py-3 rounded-full font-bold hover:bg-indigo-700 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/25 text-sm">
                     <FontAwesomeIcon icon={faDownload} />
                     Download Resume
