@@ -1,22 +1,27 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import ScrollTopOnRefresh from "./utils/ScrollToTop";
 import visitorCount from "./utils/visitorCount";
+import ProgressLine from "./components/ProgressLine";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
+import Ticker from "./components/Ticker";
+import DABanner from "./components/DABanner";
+import BackToTop from "./components/BackToTop";
 
 // Lazy loaded components
 const About = lazy(() => import("./components/About"));
-const Skills = lazy(() => import("./components/Skills"));
 const Qualifications = lazy(() => import("./components/Qualifications"));
+const Skills = lazy(() => import("./components/Skills"));
+const Achievements = lazy(() => import("./components/Achievements"));
 const Projects = lazy(() => import("./components/Projects"));
 const Contact = lazy(() => import("./components/Contact"));
 const Footer = lazy(() => import("./components/Footer"));
 
 const LoadingFallback = () => (
-  <div className="py-16 px-4 flex justify-center items-center">
+  <div className="py-[7rem] px-10 flex justify-center items-center bg-bg">
     <div className="animate-pulse flex flex-col items-center">
-      <div className="h-8 w-32 bg-slate-200 dark:bg-slate-700 rounded mb-4"></div>
-      <div className="h-4 w-48 bg-slate-100 dark:bg-slate-800 rounded"></div>
+      <div className="h-8 w-32 bg-border rounded mb-4"></div>
+      <div className="h-4 w-48 bg-border-soft rounded"></div>
     </div>
   </div>
 );
@@ -36,57 +41,33 @@ const App = () => {
       }
     };
 
-    // Auto-refresh after 30 minutes of inactivity
-    let inactivityTimeout;
-
-    const resetInactivityTimer = () => {
-      clearTimeout(inactivityTimeout);
-      inactivityTimeout = setTimeout(() => {
-        // Clear the stored timestamp to allow a new session
-        localStorage.removeItem("portfolio_visit_timestamp");
-        window.location.reload();
-      }, 30 * 60 * 1000); // 30 minutes
-    };
-
-    // User activity events that reset the timer
-    const activityEvents = ["mousemove", "keydown", "scroll", "click"];
-
-    // Set up event listeners and tracking
-    activityEvents.forEach((event) =>
-      window.addEventListener(event, resetInactivityTimer)
-    );
-
-    resetInactivityTimer(); // Initialize the timer on first load
     trackVisit(); // Record the visit if valid
-
-    // Cleanup on component unmount
-    return () => {
-      activityEvents.forEach((event) =>
-        window.removeEventListener(event, resetInactivityTimer)
-      );
-      clearTimeout(inactivityTimeout);
-    };
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0A0F1C] text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div className="min-h-screen bg-bg text-text transition-colors duration-300">
       <ScrollTopOnRefresh />
-
-      {/* Critical components */}
+      <ProgressLine />
       <Navbar />
       <Header />
+      <Ticker />
 
-      {/* Lazy loaded components */}
       <Suspense fallback={<LoadingFallback />}>
         <About />
+      </Suspense>
+
+      <Suspense fallback={<LoadingFallback />}>
+        <Qualifications />
       </Suspense>
 
       <Suspense fallback={<LoadingFallback />}>
         <Skills />
       </Suspense>
 
+      <DABanner />
+
       <Suspense fallback={<LoadingFallback />}>
-        <Qualifications />
+        <Achievements />
       </Suspense>
 
       <Suspense fallback={<LoadingFallback />}>
@@ -100,6 +81,8 @@ const App = () => {
       <Suspense fallback={<LoadingFallback />}>
         <Footer />
       </Suspense>
+
+      <BackToTop />
     </div>
   );
 };

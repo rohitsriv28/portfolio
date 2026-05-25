@@ -1,127 +1,110 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGraduationCap,
-  faBriefcase,
-  faCalendarDays,
-} from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import Reveal from "./Reveal";
 
 const Qualifications = () => {
-  const education = [
-    {
-      title: "BCA",
-      subtitle: "National Infotech College (TU)",
-      date: "2021 - Present",
-      link: "https://nationalinfotechcollege.edu.np/"
-    },
-    {
-      title: "+2 Science",
-      subtitle: "Raja Ram Shah College (BSEB)",
-      date: "2019 - 2021"
-    },
-  ];
-
-  const experience = [
-    {
-      title: "Front-End Developer Intern",
-      subtitle: "Lennobyte Solutions",
-      date: "May 2024 - Sept 2024",
-      link: "http://lennobyte.com/"
-    },
-    {
-      title: "Android Developer Intern",
-      subtitle: "Lennobyte Solutions",
-      date: "Dec 2023 - Apr 2024",
-      link: "http://lennobyte.com/"
-    },
-  ];
-
   return (
-    <section
-      id="qualification"
-      className="pt-8 pb-20 bg-slate-50 dark:bg-[#0A0F1C] relative overflow-hidden transition-colors duration-300"
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 text-sm font-medium mb-4">
-            My Journey
-          </span>
-          <h2 className="text-4xl font-bold mb-2 text-indigo-600 dark:text-indigo-400">
-            Qualification
+    <section className="py-[7rem] px-[2.5rem] border-b border-border" id="qualification">
+      <div className="max-w-[1200px] mx-auto">
+        <Reveal>
+          <div className="font-mono text-[0.62rem] tracking-[0.2em] uppercase text-accent mb-4 flex items-center gap-3 before:content-[''] before:inline-block before:w-[20px] before:h-[1px] before:bg-accent">
+            02. Path
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <h2 className="font-serif text-[clamp(2.2rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.02em] text-text">
+            Experience &amp; <em className="italic text-accent">Education</em>
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            My academic and professional experiences that have shaped my skills and knowledge
-          </p>
-        </div>
+        </Reveal>
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
-
-          {/* Education Column */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                <FontAwesomeIcon icon={faGraduationCap} className="text-xl" />
+        <Reveal delay={0.2}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-0 mt-16 max-w-[1200px]">
+            {/* Left col: Experience */}
+            <div className="md:border-r md:border-border md:pr-16">
+              <div className="font-mono text-[0.62rem] tracking-[0.16em] uppercase text-faint pb-6 border-b border-border mb-8">
+                Professional
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Education</h3>
+
+              <div className="mb-10 pb-10 border-b border-border-soft">
+                <div className="font-mono text-[0.62rem] tracking-[0.1em] text-accent mb-[0.55rem]">
+                  Dec 2023 — Sept 2024
+                </div>
+                <div className="font-serif text-[1.2rem] text-text mb-[0.2rem] leading-[1.3]">
+                  Frontend Developer Intern
+                </div>
+                <div className="font-mono text-[0.7rem] text-muted mb-[0.75rem] tracking-[0.05em]">
+                  Lennobyte Solutions · Birgunj, Nepal
+                </div>
+                <p className="font-sans text-[0.84rem] leading-[1.82] text-[rgba(124,128,145,0.9)]">
+                  Sole frontend developer on Gift Garden — a production e-commerce platform. Delivered the complete UI independently within 3 months using React, Tailwind CSS, and Framer Motion. Implemented Axios interceptors with JWT refresh logic, cart management with debounced API sync, and optimistic UI with automatic rollback on error.
+                </p>
+                <div className="inline-block mt-[0.75rem] font-mono text-[0.58rem] tracking-[0.1em] uppercase px-[0.6rem] py-[0.2rem] border border-accent text-accent">
+                  Production · Sole Dev
+                </div>
+              </div>
+
+              <div className="mb-10 pb-10 border-b-0">
+                <div className="font-mono text-[0.62rem] tracking-[0.1em] text-accent mb-[0.55rem]">
+                  Dec 2023 — Apr 2024
+                </div>
+                <div className="font-serif text-[1.2rem] text-text mb-[0.2rem] leading-[1.3]">
+                  Android Developer Intern
+                </div>
+                <div className="font-mono text-[0.7rem] text-muted mb-[0.75rem] tracking-[0.05em]">
+                  Lennobyte Solutions · Birgunj, Nepal
+                </div>
+                <p className="font-sans text-[0.84rem] leading-[1.82] text-[rgba(124,128,145,0.9)]">
+                  Started as Android/Kotlin developer before pivoting to frontend mid-internship. Demonstrated the adaptability to self-teach and deliver production-ready work in a new stack within the same engagement.
+                </p>
+                <div className="inline-block mt-[0.75rem] font-mono text-[0.58rem] tracking-[0.1em] uppercase px-[0.6rem] py-[0.2rem] border border-[rgba(124,128,145,0.4)] text-muted">
+                  Android · Kotlin
+                </div>
+              </div>
             </div>
 
-            <div className="relative pl-6 border-l-2 border-indigo-200 dark:border-indigo-800 space-y-6">
-              {education.map((item, index) => (
-                <TimelineCard key={index} {...item} accent="indigo" />
-              ))}
+            {/* Right col: Education */}
+            <div className="md:pl-16">
+              <div className="font-mono text-[0.62rem] tracking-[0.16em] uppercase text-faint pb-6 border-b border-border mb-8">
+                Education
+              </div>
+
+              <div className="mb-10 pb-10 border-b border-border-soft">
+                <div className="font-mono text-[0.62rem] tracking-[0.1em] text-accent mb-[0.55rem]">
+                  Mar 2022 — Present
+                </div>
+                <div className="font-serif text-[1.2rem] text-text mb-[0.2rem] leading-[1.3]">
+                  Bachelor of Computer Applications
+                </div>
+                <div className="font-mono text-[0.7rem] text-muted mb-[0.75rem] tracking-[0.05em]">
+                  National Infotech College · Tribhuvan University
+                </div>
+                <p className="font-sans text-[0.84rem] leading-[1.82] text-[rgba(124,128,145,0.9)]">
+                  Final semester. Relevant coursework: Web Development, DBMS, Software Engineering, Data Structures & Algorithms, Java. Operational Lead of the college IT Club. Winner of Ideathon 2024. Conducted a 3-day HTML/CSS/JS mentoring workshop for juniors.
+                </p>
+                <div className="inline-block mt-[0.75rem] font-mono text-[0.58rem] tracking-[0.1em] uppercase px-[0.6rem] py-[0.2rem] border border-accent text-accent">
+                  Expected Jul–Oct 2026
+                </div>
+              </div>
+
+              <div className="mb-10 pb-10 border-b-0">
+                <div className="font-mono text-[0.62rem] tracking-[0.1em] text-accent mb-[0.55rem]">
+                  2019 — 2021
+                </div>
+                <div className="font-serif text-[1.2rem] text-text mb-[0.2rem] leading-[1.3]">
+                  +2 Science
+                </div>
+                <div className="font-mono text-[0.7rem] text-muted mb-[0.75rem] tracking-[0.05em]">
+                  Raja Ram Shah College · BSEB
+                </div>
+                <p className="font-sans text-[0.84rem] leading-[1.82] text-[rgba(124,128,145,0.9)]">
+                  Science stream with a foundation in mathematics and analytical thinking that continues to inform both engineering decisions and problem-solving approach.
+                </p>
+              </div>
             </div>
           </div>
-
-          {/* Experience Column */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-cyan-100 dark:bg-cyan-900 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
-                <FontAwesomeIcon icon={faBriefcase} className="text-xl" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Experience</h3>
-            </div>
-
-            <div className="relative pl-6 border-l-2 border-cyan-200 dark:border-cyan-800 space-y-6">
-              {experience.map((item, index) => (
-                <TimelineCard key={index} {...item} accent="cyan" />
-              ))}
-            </div>
-          </div>
-
-        </div>
+        </Reveal>
       </div>
     </section>
-  );
-};
-
-const TimelineCard = ({ title, subtitle, date, link, accent = "indigo" }) => {
-  const dotColor = accent === "cyan" ? "bg-cyan-500" : "bg-indigo-500";
-  const hoverBorder = accent === "cyan" ? "hover:border-cyan-500" : "hover:border-indigo-500";
-  const subtitleColor = accent === "cyan" ? "text-cyan-600 dark:text-cyan-400" : "text-indigo-600 dark:text-indigo-400";
-  const iconColor = accent === "cyan" ? "text-cyan-400" : "text-indigo-400";
-
-  return (
-    <div className="relative">
-      {/* Timeline Dot */}
-      <div className={`absolute -left-[25px] top-6 w-3 h-3 rounded-full ${dotColor} ring-4 ring-white dark:ring-gray-900`}></div>
-
-      {/* Card */}
-      <div className={`bg-white dark:bg-gray-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg transition-all duration-300 ${hoverBorder} hover:-translate-y-1`}>
-        <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-1">{title}</h4>
-        <p className={`${subtitleColor} mb-2 font-medium`}>
-          {link ? (
-            <a href={link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-              {subtitle}
-            </a>
-          ) : subtitle}
-        </p>
-        <div className="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-2">
-          <FontAwesomeIcon icon={faCalendarDays} className={iconColor} />
-          {date}
-        </div>
-      </div>
-    </div>
   );
 };
 

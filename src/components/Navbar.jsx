@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faUser,
-  faCog,
-  faBriefcase,
-  faGraduationCap,
-  faEnvelope,
-  faBars,
-  faTimes,
-  faSun,
-  faMoon,
-} from "@fortawesome/free-solid-svg-icons";
-import { initDarkMode, toggleDarkMode } from "../utils/darkMode";
+import { Menu, X } from "lucide-react";
+
+const navItems = [
+  { id: "about", label: "About" },
+  { id: "qualification", label: "Experience" },
+  { id: "skill", label: "Skills" },
+  { id: "projects", label: "Work" },
+  { id: "contact", label: "Contact" },
+];
 
 const Navbar = () => {
-  const [activeSection, setActiveSection] = useState("main");
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => initDarkMode());
+  const [activeSection, setActiveSection] = useState("main");
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      const sections = ["main", "about", "skill", "qualification", "projects", "contact"];
+      const sections = ["main", "about", "qualification", "skill", "projects", "contact"];
       const current = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -40,21 +34,28 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
-    { id: "main", icon: faHome, label: "Home" },
-    { id: "about", icon: faUser, label: "About" },
-    { id: "skill", icon: faCog, label: "Skills" },
-    { id: "qualification", icon: faGraduationCap, label: "Education" },
-    { id: "projects", icon: faBriefcase, label: "Projects" },
-    { id: "contact", icon: faEnvelope, label: "Contact" },
-  ];
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+      }
+    };
+    const handleEscape = (e) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 70;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      const offsetPosition = element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth"
@@ -63,104 +64,66 @@ const Navbar = () => {
     }
   };
 
-  const handleThemeToggle = () => {
-    setDarkMode(toggleDarkMode(darkMode));
-  };
-
   return (
     <>
-      {/* Theme Toggle - Fixed Top Right */}
-      <div className="fixed top-6 right-6 z-50 hidden md:block">
-        <button
-          onClick={handleThemeToggle}
-          className="w-12 h-12 rounded-full flex items-center justify-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-indigo-600 dark:text-yellow-400 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-lg transition-all duration-300"
-          aria-label="Toggle Dark Mode"
-        >
-          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="text-xl" />
+      <nav
+        className={`fixed top-0 left-0 right-0 z-[200] flex items-center justify-between px-[2.5rem] py-[1.25rem] transition-all duration-300 ${isScrolled ? "bg-[rgba(14,15,19,0.96)] backdrop-blur-[14px] border-b border-border" : "bg-transparent border-b border-transparent"
+          }`}
+      >
+        <button onClick={() => scrollToSection("main")} className="font-mono text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-text">
+          Rohit<span className="text-accent">.</span>
         </button>
-      </div>
 
-      {/* Desktop Floating Navbar - Solid backgrounds */}
-      <div className={`fixed top-6 left-0 right-0 z-40 flex justify-center transition-all duration-300`}>
-        <nav className={`
-          hidden md:flex items-center gap-1 rounded-full 
-          transition-all duration-500 ease-in-out border
-          ${isScrolled
-            ? 'px-4 py-2 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-lg scale-95'
-            : 'px-4 py-2 md:px-4 md:py-2 lg:px-6 lg:py-3 bg-white/90 dark:bg-slate-900/90 border-slate-200 dark:border-slate-800 scale-100'}
-        `}>
+        <ul className="hidden md:flex items-center gap-[2.5rem] list-none">
           {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={`
-                relative md:px-3 lg:px-5 py-2 rounded-full md:text-xs lg:text-sm font-medium transition-all duration-300
-                flex items-center gap-2 group overflow-hidden
-                ${activeSection === item.id
-                  ? 'text-indigo-600 dark:text-indigo-400'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800'}
-              `}
-            >
-              <FontAwesomeIcon
-                icon={item.icon}
-                className={`transition-transform duration-300 ${activeSection === item.id ? 'scale-110' : 'group-hover:scale-110'}`}
-              />
-              <span className="relative z-10">{item.label}</span>
-
-              {/* Active Background Pill - Solid */}
-              {activeSection === item.id && (
-                <div className="absolute inset-0 -z-0 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 rounded-full" />
-              )}
-            </button>
+            <li key={item.id}>
+              <button
+                onClick={() => scrollToSection(item.id)}
+                className={`font-mono text-[0.68rem] tracking-[0.1em] uppercase transition-colors duration-200 relative pb-1 after:content-[''] after:absolute after:bottom-[-3px] after:left-0 after:h-[1px] after:bg-accent after:transition-all after:duration-200 after:ease-custom-out ${activeSection === item.id ? "text-text after:w-full" : "text-muted after:w-0 hover:text-text hover:after:w-full"
+                  }`}
+              >
+                {item.label}
+              </button>
+            </li>
           ))}
-        </nav>
-      </div>
+        </ul>
 
-      {/* Mobile Header - Solid background */}
-      <div className="md:hidden fixed top-0 w-full z-50 p-4 flex justify-between items-center bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
-          Rohit
-        </span>
-        <div className="flex items-center gap-4">
+        <button
+          onClick={() => scrollToSection("contact")}
+          className="hidden md:block font-mono text-[0.68rem] tracking-[0.1em] uppercase text-bg bg-accent px-[1.25rem] py-[0.5rem] border border-accent transition-colors duration-200 hover:bg-transparent hover:text-accent"
+        >
+          Hire Me
+        </button>
+
+        <button
+          className="md:hidden text-text z-[201]"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 z-[199] bg-bg flex flex-col items-center justify-center gap-[2.5rem] transition-opacity duration-300 ${mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
+      >
+        {navItems.map((item) => (
           <button
-            onClick={handleThemeToggle}
-            className="text-indigo-600 dark:text-yellow-400"
-            aria-label="Toggle Dark Mode"
+            key={item.id}
+            onClick={() => scrollToSection(item.id)}
+            className="font-serif text-[2.5rem] text-text transition-colors duration-200 hover:text-accent"
           >
-            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} size="lg" />
+            {item.label}
           </button>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-slate-700 dark:text-white p-2"
-          >
-            <FontAwesomeIcon icon={mobileMenuOpen ? faTimes : faBars} size="lg" />
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Overlay - Solid background */}
-      <div className={`
-        md:hidden fixed inset-0 z-40 bg-white dark:bg-slate-900 transition-all duration-300 flex items-center justify-center
-        ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
-      `}>
-        <div className="flex flex-col gap-8 text-center">
-          {navItems.map((item, index) => (
-            <button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={`
-                text-2xl font-medium transition-all duration-300 flex items-center justify-center gap-4
-                ${activeSection === item.id ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-400'}
-                hover:text-indigo-600 dark:hover:text-indigo-400 transform hover:scale-110
-              `}
-              style={{ transitionDelay: `${index * 50}ms` }}
-            >
-              <FontAwesomeIcon icon={item.icon} className="text-xl" />
-              {item.label}
-            </button>
-          ))}
-        </div>
+        ))}
+        <button
+          onClick={() => scrollToSection("contact")}
+          className="font-serif text-[2.5rem] text-text transition-colors duration-200 hover:text-accent"
+        >
+          Say Hello
+        </button>
       </div>
     </>
   );

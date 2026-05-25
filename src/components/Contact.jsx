@@ -1,126 +1,119 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faLocationDot,
-  faEnvelope,
-  faPaperPlane,
-} from "@fortawesome/free-solid-svg-icons";
+import Reveal from "./Reveal";
 
-const EMAIL = "rohitraj2002ind@gmail.com";
-
-function Contact() {
-  const subject = encodeURIComponent("Project / opportunity from your portfolio");
-  const body = encodeURIComponent(
-    "Hi Rohit,\n\nI came across your portfolio and would like to connect regarding..."
-  );
-  const mailtoHref = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-
+const Contact = () => {
   return (
-    <section
-      id="contact"
-      className="pt-8 pb-20 bg-slate-50 dark:bg-[#0A0F1C] relative overflow-hidden transition-colors duration-300"
-    >
-      <div className="container max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16 space-y-4">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800">
-            <span className="text-indigo-600 dark:text-indigo-400 font-medium text-sm">Get in Touch</span>
+    <section className="py-[7rem] px-[2.5rem] border-b border-border bg-surface" id="contact">
+      <div className="max-w-[1200px] mx-auto">
+        <Reveal>
+          <div className="font-mono text-[0.62rem] tracking-[0.2em] uppercase text-accent mb-4 flex items-center gap-3 before:content-[''] before:inline-block before:w-[20px] before:h-[1px] before:bg-accent">
+            05. Connect
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
-            Contact Me
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <h2 className="font-serif text-[clamp(2.2rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.02em] text-text">
+            Let's <em className="italic text-accent">Talk</em>
           </h2>
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed font-light">
-            Recruiters, teams, and collaborators — the fastest way to reach me is by email.
-          </p>
-        </div>
+        </Reveal>
 
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 lg:items-stretch">
-          {/* Left Side - Contact Details */}
-          <div className="w-full lg:w-1/3 flex flex-col gap-6">
-            {/* Location Card */}
-            <div className="relative bg-white dark:bg-gray-800/90 backdrop-blur-md p-6 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-[1.02] flex-1">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-indigo-500/0 to-indigo-500/5 dark:to-indigo-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative flex items-start gap-5 h-full">
-                <div className="bg-gradient-to-br from-indigo-100 to-indigo-50 dark:from-indigo-900/50 dark:to-indigo-800/30 p-4 rounded-2xl text-indigo-600 dark:text-indigo-400 group-hover:from-indigo-600 group-hover:to-indigo-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
-                  <FontAwesomeIcon icon={faLocationDot} className="text-xl" />
-                </div>
-                <div className="flex-1 space-y-1 flex flex-col justify-center">
-                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                    Location
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
-                    Raxaul, India · Birgunj, Nepal
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-500">
-                    Available online · comfortable working remotely across time zones.
-                  </p>
-                </div>
+        <Reveal delay={0.2}>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 mt-16 max-w-[1200px]">
+            {/* Left Info */}
+            <div>
+              <p className="font-sans text-[0.95rem] leading-[1.8] text-muted mb-8">
+                I am currently open to new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+              </p>
+              <a
+                href="mailto:rohitraj2002ind@gmail.com"
+                className="font-serif text-[clamp(1.5rem,2.5vw,2.2rem)] text-text block mb-12 relative w-fit after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:origin-right after:transition-transform after:duration-400 after:ease-custom-out hover:after:scale-x-100 hover:after:origin-left"
+              >
+                rohitraj2002ind@gmail.com
+              </a>
+
+              <div className="flex gap-6">
+                <a
+                  href="mailto:rohitraj2002ind@gmail.com"
+                  className="font-mono text-[0.65rem] tracking-[0.1em] uppercase text-muted transition-colors duration-200 hover:text-accent"
+                >
+                  Gmail
+                </a>
+                <a
+                  href="https://github.com/rohitsriv28"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[0.65rem] tracking-[0.1em] uppercase text-muted transition-colors duration-200 hover:text-accent"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://linkedin.com/in/rohitsriv28"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[0.65rem] tracking-[0.1em] uppercase text-muted transition-colors duration-200 hover:text-accent"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://twitter.com/_i_rohit28"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[0.65rem] tracking-[0.1em] uppercase text-muted transition-colors duration-200 hover:text-accent"
+                >
+                  Twitter
+                </a>
               </div>
             </div>
 
-            {/* Email Card */}
-            <div className="relative bg-white dark:bg-gray-800/90 backdrop-blur-md p-6 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-cyan-400 dark:hover:border-cyan-500 transition-all duration-500 group transform hover:-translate-y-2 hover:scale-[1.02] flex-1">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/5 dark:to-cyan-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative flex items-start gap-5 h-full">
-                <div className="bg-gradient-to-br from-cyan-100 to-cyan-50 dark:from-cyan-900/50 dark:to-cyan-800/30 p-4 rounded-2xl text-cyan-600 dark:text-cyan-400 group-hover:from-cyan-600 group-hover:to-cyan-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
-                  <FontAwesomeIcon icon={faEnvelope} className="text-xl" />
+            {/* Right Form */}
+            <div>
+              <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="name" className="font-mono text-[0.6rem] tracking-[0.1em] uppercase text-accent">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="John Doe"
+                    className="bg-bg border border-border text-text font-sans text-[0.9rem] px-5 py-4 outline-none transition-colors duration-200 focus:border-accent placeholder:text-[rgba(124,128,145,0.4)]"
+                  />
                 </div>
-                <div className="space-y-2 flex-1 flex flex-col justify-center">
-                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="email" className="font-mono text-[0.6rem] tracking-[0.1em] uppercase text-accent">
                     Email
-                  </h3>
-                  <a
-                    href={mailtoHref}
-                    className="text-slate-600 dark:text-slate-400 break-all text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
-                  >
-                    {EMAIL}
-                  </a>
-                  <p className="text-xs text-slate-500 dark:text-slate-500">
-                    I&apos;m frequently online and usually respond within a day.
-                  </p>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="john@example.com"
+                    className="bg-bg border border-border text-text font-sans text-[0.9rem] px-5 py-4 outline-none transition-colors duration-200 focus:border-accent placeholder:text-[rgba(124,128,145,0.4)]"
+                  />
                 </div>
-              </div>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="message" className="font-mono text-[0.6rem] tracking-[0.1em] uppercase text-accent">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    rows="4"
+                    placeholder="Hello..."
+                    className="bg-bg border border-border text-text font-sans text-[0.9rem] px-5 py-4 outline-none transition-colors duration-200 focus:border-accent placeholder:text-[rgba(124,128,145,0.4)] resize-y"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full justify-center font-mono text-[0.72rem] tracking-[0.08em] uppercase bg-accent text-bg px-8 py-3.5 border border-accent transition-colors duration-200 inline-flex items-center gap-2 hover:bg-transparent hover:text-accent mt-2"
+                >
+                  Send Message
+                </button>
+              </form>
             </div>
           </div>
-
-          {/* Right Side - CTA panel */}
-          <div className="w-full lg:w-2/3 flex">
-            <div className="relative bg-gradient-to-br from-white via-slate-50/50 to-indigo-50/30 dark:from-gray-800/90 dark:via-gray-800/80 dark:to-indigo-900/10 backdrop-blur-md p-6 sm:p-7 md:p-8 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-2xl hover:shadow-3xl transition-all duration-500 flex flex-col justify-center group overflow-hidden w-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-cyan-500/0 to-indigo-500/5 dark:to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="relative space-y-4">
-                <h3 className="text-2xl sm:text-3xl md:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight">
-                  Let&apos;s make something amazing together.
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
-                  Whether you&apos;re hiring for a role, looking for a freelance developer,
-                  or just want to discuss an idea, you can reach me directly via email — just say hi and tell me what you have in mind.
-                </p>
-
-                <div className="flex flex-wrap items-center gap-4 pt-1">
-                  <a
-                    href={mailtoHref}
-                    className="inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-bold hover:from-indigo-700 hover:to-indigo-600 active:scale-95 transition-all duration-300 shadow-2xl shadow-indigo-500/40 hover:shadow-3xl hover:shadow-indigo-500/50 group/btn"
-                  >
-                    Email Me
-                    <FontAwesomeIcon
-                      icon={faPaperPlane}
-                      className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300"
-                    />
-                  </a>
-                </div>
-
-                <div className="pt-3 border-t-2 border-slate-200 dark:border-slate-700/50">
-                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-500 leading-relaxed">
-                    Prefer another channel? You can also connect with me on LinkedIn or GitHub using the links in the footer.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
-}
+};
 
 export default Contact;

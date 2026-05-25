@@ -1,92 +1,69 @@
-# Rohit Raj Srivastava - Portfolio
+# Rohit Raj Srivastava — Frontend Developer Portfolio
 
-A modern, responsive personal portfolio website built with **React 19**, **Tailwind CSS 4**, and **Firebase**. Features a clean dual-theme (light/dark) design with a Navy, Indigo, and Cyan color palette.
-
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?logo=tailwind-css)
-![Firebase](https://img.shields.io/badge/Firebase-11.10-FFCA28?logo=firebase)
-![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?logo=vite)
+A premium, minimalistic personal portfolio website built with **React**, **Tailwind CSS**, and **Vite**. Features a highly polished, dark-themed design focusing on typography, micro-interactions, and professional experience.
 
 ## ✨ Features
 
-- **Dual Theme Toggle** - Seamless light/dark mode switching with system preference detection
-- **Hero Section** - Animated introduction with profile image and call-to-action buttons
-- **About** - Personal bio with animated stat counters (Firebase-powered)
-- **Skills** - Grid display of technical competencies with icons and context
-- **Qualifications** - Side-by-side Education and Experience timelines
-- **Projects** - Dynamic project gallery fetched from Firebase with filtering and pagination
-- **Contact** - Streamlined mailto-based contact with location details
-- **Visitor Tracking** - Anonymous visitor count stored in Firebase
-- **Responsive** - Mobile-first design that adapts to all screen sizes
+- **Premium Dark Aesthetics** - A cohesive dark theme utilizing custom Tailwind CSS variables for background (`#0E0F13`), surfaces, and borders.
+- **Responsive Layout** - Seamless mobile-first design ensuring perfect rendering on all devices.
+- **Scroll Reveal Animations** - Smooth entry animations for content blocks using Framer Motion and custom CSS.
+- **Dynamic Projects Showcase** - Curated display of professional work with a sleek, minimalist card design.
+- **Performance Optimized** - Fast loading times with lazy-loaded components.
+- **Integrated Resume Viewer** - Seamless in-app PDF viewing experience.
 
 ## 🛠️ Tech Stack
 
 | Category            | Technologies                           |
 | ------------------- | -------------------------------------- |
-| **Frontend**        | React 19, Tailwind CSS 4, Vite 6       |
-| **Backend/Data**    | Firebase Firestore, Firebase Analytics |
-| **Icons**           | FontAwesome, Lucide React, React Icons |
-| **Typography**      | Inter font family                      |
-| **Package Manager** | Bun / npm                              |
+| **Frontend**        | React, Tailwind CSS, Vite              |
+| **Animations**      | Framer Motion                          |
+| **Icons**           | Lucide React                           |
+| **Typography**      | DM Serif Display, JetBrains Mono, Inter|
 
 ## 📁 Project Structure
 
-```
+```text
 src/
-├── components/
-│   ├── Navbar.jsx       # Navigation with theme toggle
-│   ├── Header.jsx       # Hero section
-│   ├── About.jsx        # Bio and stats
-│   ├── Skills.jsx       # Technical skills grid
-│   ├── Qualifications.jsx # Education & Experience
-│   ├── Projects.jsx     # Project gallery
-│   ├── Contact.jsx      # Contact section
-│   └── Footer.jsx       # Footer with socials
-├── config/
-│   └── firebase.config.js
-├── utils/
-│   ├── darkMode.js      # Theme management
-│   ├── visitorCount.js  # Visitor tracking
-│   └── ScrollToTop.jsx  # Scroll restoration
-├── assets/              # Images and resume
-├── App.jsx              # Main app component
-├── main.jsx             # Entry point
-└── index.css            # Global styles
+├── components/          # Reusable UI components and sections
+│   ├── About.jsx
+│   ├── Achievements.jsx
+│   ├── Contact.jsx
+│   ├── Header.jsx
+│   ├── Projects.jsx
+│   ├── Qualifications.jsx
+│   ├── Resume.jsx
+│   └── ...
+├── assets/              # Images and static assets
+├── utils/               # Helper functions
+├── App.jsx              # Main application layout
+├── main.jsx             # React entry point & routing
+└── index.css            # Global styles and design tokens
 ```
 
 ## 🎨 Design System
 
-| Element            | Light Theme | Dark Theme |
-| ------------------ | ----------- | ---------- |
-| Background         | `#F8FAFC`   | `#0A0F1C`  |
-| Surface            | `#FFFFFF`   | `#111827`  |
-| Primary Text       | `#0F172A`   | `#F1F5F9`  |
-| Accent (Primary)   | `#6366F1`   | `#6366F1`  |
-| Accent (Secondary) | `#06B6D4`   | `#06B6D4`  |
+The portfolio leverages a highly tailored color palette configured in `index.css`:
 
-## 📝 Firebase Data Structure
+| Element          | CSS Variable  | Hex Code  |
+| ---------------- | ------------- | --------- |
+| **Background**   | `--color-bg`  | `#0E0F13` |
+| **Surface**      | `--color-surface`| `#141519` |
+| **Border**       | `--color-border` | `#22252E` |
+| **Text**         | `--color-text`   | `#E8E9EE` |
+| **Muted Text**   | `--color-muted`  | `#7C8091` |
+| **Accent**       | `--color-accent` | `#3DBDB5` |
 
-```
-profile/
-├── stats (document)
-│   ├── experience: number
-│   └── totalProjects: number
-└── projects/
-    └── items/ (collection)
-        └── {projectId}
-            ├── title: string
-            ├── description: string
-            ├── image: string
-            ├── link: string
-            ├── gitLink: string
-            ├── category: "Personal" | "Professional"
-            ├── tags: string[]
-            └── priority: number
-```
+## 🚀 Running Locally
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
 ## 🤝 Contact
 

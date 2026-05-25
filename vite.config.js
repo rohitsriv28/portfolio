@@ -39,7 +39,6 @@ export default defineConfig({
     },
 
     // Remove Terser-specific options
-    minify: "esbuild", // Use esbuild (default) or 'swc'
   },
 
   // Performance hints
