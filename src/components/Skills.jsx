@@ -1,62 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Loader } from "lucide-react";
+import { onSnapshot, query, orderBy } from "firebase/firestore";
+import { skillsRef } from "../config/firebase.config";
 import Reveal from "./Reveal";
 
-const SKILL_GROUPS = [
-  {
-    label: "Core Frontend",
-    items: [
-      { name: "React", tooltip: "Production — Gift Garden, SwiftCare, Expense Tracker", highlight: true },
-      { name: "JavaScript ES6+", tooltip: "ES6+, async/await, closures, modules", highlight: true },
-      { name: "TypeScript", tooltip: "Strict mode — Expense Tracker PWA", highlight: true },
-      { name: "HTML5", tooltip: "Semantic, accessible markup" },
-      { name: "CSS3", tooltip: "Responsive layouts, animations" },
-      { name: "Tailwind CSS", tooltip: "Utility-first — all major projects" }
-    ]
-  },
-  {
-    label: "Libraries & Tooling",
-    items: [
-      { name: "Framer Motion", tooltip: "Smooth transitions — Gift Garden" },
-      { name: "React Router DOM", tooltip: "Client-side routing, protected pages" },
-      { name: "Axios", tooltip: "HTTP client with JWT interceptors" },
-      { name: "React Hook Form", tooltip: "Form validation — Gift Garden checkout" },
-      { name: "Zod", tooltip: "Schema validation — paired with RHF" },
-      { name: "Recharts", tooltip: "Charts — SwiftCare admin, Expense Tracker" },
-      { name: "Vite", tooltip: "Build tool — all recent projects" }
-    ]
-  },
-  {
-    label: "Backend & Services",
-    items: [
-      { name: "Firebase Auth", tooltip: "Auth flows, user sessions" },
-      { name: "Firestore", tooltip: "Real-time data — Expense Tracker" },
-      { name: "Node.js", tooltip: "TeraBox streaming service, backend APIs" },
-      { name: "Express.js", tooltip: "REST API server — TeraBox project" },
-      { name: "MongoDB", tooltip: "NoSQL data store — TeraBox, ChatApp" },
-      { name: "REST APIs", tooltip: "Consumed in all frontend projects" },
-      { name: "JWT Auth", tooltip: "Token refresh logic via Axios interceptors" }
-    ]
-  },
-  {
-    label: "Dev & Other Tools",
-    items: [
-      { name: "Git / GitHub", tooltip: "Daily driver — branching, PRs, collaboration" },
-      { name: "Postman", tooltip: "API testing during Gift Garden integration" },
-      { name: "VS Code", tooltip: "Primary editor" },
-      { name: "Razorpay", tooltip: "Payment integration — SwiftCare" },
-      { name: "Cloudinary", tooltip: "Media storage — TeraBox streaming" }
-    ]
-  },
-  {
-    label: "Languages",
-    items: [
-      { name: "Java", tooltip: "OOP, DSA coursework" },
-      { name: "C / C++", tooltip: "Academic / algorithmic problems" },
-      { name: "SQL", tooltip: "Queries, joins, subqueries" },
-      { name: "Kotlin (basics)", tooltip: "Android internship — Lennobyte" }
-    ]
-  }
+const GROUP_ORDER = [
+  "Core Frontend",
+  "Libraries & Tooling",
+  "Backend & Services",
+  "Dev & Other Tools",
+  "Languages"
 ];
 
 const Chip = ({ item }) => {
@@ -76,11 +30,11 @@ const Chip = ({ item }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={baseClasses + (item.highlight ? highlightClasses : standardClasses)}>
-        {item.name}
+        {item.label}
       </div>
 
       <AnimatePresence>
-        {isHovered && (
+        {isHovered && item.tooltip && (
           <motion.div
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -101,6 +55,72 @@ const Chip = ({ item }) => {
 };
 
 const Skills = () => {
+  const [groupedSkills, setGroupedSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const getSkills = useCallback(() => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const q = query(skillsRef, orderBy("order", "asc"));
+      const unsubscribe = onSnapshot(
+        q,
+        (querySnapshot) => {
+          const skillsData = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          // Group by category based on GROUP_ORDER
+          const groupsMap = {};
+          GROUP_ORDER.forEach(g => { groupsMap[g] = []; });
+
+          skillsData.forEach(skill => {
+            if (groupsMap[skill.group]) {
+              groupsMap[skill.group].push(skill);
+            } else {
+              // If an unknown group appears, create it at the end
+              if (!groupsMap[skill.group]) {
+                groupsMap[skill.group] = [];
+              }
+              groupsMap[skill.group].push(skill);
+            }
+          });
+
+          // Convert map back to array maintaining order
+          const formattedGroups = Object.keys(groupsMap)
+            .filter(key => groupsMap[key].length > 0)
+            .map(key => ({
+              label: key,
+              items: groupsMap[key]
+            }));
+
+          setGroupedSkills(formattedGroups);
+          setLoading(false);
+        },
+        (error) => {
+          console.error("Error fetching skills:", error);
+          setError("Failed to load skills.");
+          setLoading(false);
+        }
+      );
+      return unsubscribe;
+    } catch (error) {
+      console.error("Error setting up skills listener:", error);
+      setError("Failed to set up real-time updates.");
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = getSkills();
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [getSkills]);
+
   return (
     <section className="py-28 px-10 border-b border-border bg-surface" id="skills">
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 lg:gap-24 items-start max-w-[1200px] mx-auto mt-16">
@@ -128,20 +148,38 @@ const Skills = () => {
 
         {/* Right Column */}
         <div className="flex flex-col gap-9 mt-2 lg:mt-0">
-          {SKILL_GROUPS.map((group, groupIndex) => (
-            <Reveal key={group.label} delay={0.2 + (groupIndex * 0.1)}>
-              <div className="mb-2">
-                <div className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-accent mb-3.5 pb-2 border-b border-border">
-                  {group.label}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {group.items.map(item => (
-                    <Chip key={item.name} item={item} />
-                  ))}
-                </div>
+          {loading ? (
+            <div className="flex justify-center items-center min-h-[30vh]">
+              <div className="text-center">
+                <Loader className="animate-spin h-8 w-8 mx-auto text-accent mb-4" />
+                <p className="font-mono text-[0.75rem] tracking-[0.1em] uppercase text-muted">Loading stack...</p>
               </div>
-            </Reveal>
-          ))}
+            </div>
+          ) : error ? (
+            <div className="flex justify-center items-center min-h-[30vh]">
+              <div className="text-center">
+                <p className="text-red-500 mb-4 font-mono text-sm">{error}</p>
+                <button onClick={getSkills} className="font-mono text-xs tracking-widest uppercase bg-transparent border border-accent text-accent px-6 py-2 hover:bg-accent hover:text-bg transition-colors">
+                  Retry
+                </button>
+              </div>
+            </div>
+          ) : (
+            groupedSkills.map((group, groupIndex) => (
+              <Reveal key={group.label} delay={0.2 + (groupIndex * 0.1)}>
+                <div className="mb-2">
+                  <div className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-accent mb-3.5 pb-2 border-b border-border">
+                    {group.label}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map(item => (
+                      <Chip key={item.id} item={item} />
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ))
+          )}
         </div>
 
       </div>

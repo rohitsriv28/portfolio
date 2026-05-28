@@ -1,14 +1,14 @@
 # Rohit Raj Srivastava — Frontend Developer Portfolio
 
-A premium, minimalistic personal portfolio website built with **React**, **Tailwind CSS**, and **Vite**. Features a highly polished, dark-themed design focusing on typography, micro-interactions, and professional experience.
+A premium, minimalistic personal portfolio website built with **React**, **Tailwind CSS**, and **Vite**. Features a highly polished, dark-themed design focusing on typography, micro-interactions, and professional experience. Powered by a live **Firebase** backend for seamless content management.
 
 ## ✨ Features
 
 - **Premium Dark Aesthetics** - A cohesive dark theme utilizing custom Tailwind CSS variables for background (`#0E0F13`), surfaces, and borders.
+- **Dynamic Real-Time Data** - Projects, Skills, Experience, and Education data are seamlessly fetched and synced in real-time using **Firebase Firestore**.
 - **Responsive Layout** - Seamless mobile-first design ensuring perfect rendering on all devices.
 - **Scroll Reveal Animations** - Smooth entry animations for content blocks using Framer Motion and custom CSS.
-- **Dynamic Projects Showcase** - Curated display of professional work with a sleek, minimalist card design.
-- **Performance Optimized** - Fast loading times with lazy-loaded components.
+- **Dynamic Projects Showcase** - Curated display of professional work with a sleek, minimalist card design and smart loading states.
 - **Integrated Resume Viewer** - Seamless in-app PDF viewing experience.
 
 ## 🛠️ Tech Stack
@@ -16,6 +16,7 @@ A premium, minimalistic personal portfolio website built with **React**, **Tailw
 | Category            | Technologies                           |
 | ------------------- | -------------------------------------- |
 | **Frontend**        | React, Tailwind CSS, Vite              |
+| **Backend & DB**    | Firebase (Firestore, Analytics)        |
 | **Animations**      | Framer Motion                          |
 | **Icons**           | Lucide React                           |
 | **Typography**      | DM Serif Display, JetBrains Mono, Inter|
@@ -29,10 +30,12 @@ src/
 │   ├── Achievements.jsx
 │   ├── Contact.jsx
 │   ├── Header.jsx
-│   ├── Projects.jsx
-│   ├── Qualifications.jsx
+│   ├── Projects.jsx       (Dynamically powered by Firestore)
+│   ├── Skills.jsx         (Dynamically powered by Firestore)
+│   ├── Qualifications.jsx (Dynamically powered by Firestore)
 │   ├── Resume.jsx
 │   └── ...
+├── config/              # Firebase configuration and DB references
 ├── assets/              # Images and static assets
 ├── utils/               # Helper functions
 ├── App.jsx              # Main application layout
@@ -60,7 +63,10 @@ The portfolio leverages a highly tailored color palette configured in `index.css
    ```bash
    npm install
    ```
-3. Start the development server:
+3. Set up environment variables for Firebase:
+   - Create a `.env.local` file at the root.
+   - Add your `VITE_FIREBASE_*` keys.
+4. Start the development server:
    ```bash
    npm run dev
    ```
@@ -76,5 +82,5 @@ The portfolio leverages a highly tailored color palette configured in `index.css
 ---
 
 <p align="center">
-  Forged with ❤️ using React & Tailwind CSS
+  Forged with ❤️ using React, Firebase, & Tailwind CSS
 </p>

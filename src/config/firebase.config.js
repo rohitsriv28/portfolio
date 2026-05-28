@@ -20,6 +20,9 @@ const db = getFirestore(app);
 // Create references to your collections
 const profileRef = collection(db, "profile");
 const projectsRef = collection(doc(profileRef, "projects"), "items");
+const skillsRef = collection(doc(profileRef, "skills"), "items");
+const experienceRef = collection(doc(profileRef, "experience"), "items");
+const educationRef = collection(doc(profileRef, "education"), "items");
 const statsRef = doc(db, "profile", "stats"); // More direct reference
 
 // Remove the automatic initialization and export initializeStatsDocument separately
@@ -41,4 +44,4 @@ export const initializeStatsDocument = async () => {
   }
 };
 
-export { db, projectsRef, statsRef, firebaseConfig };
+export { db, projectsRef, skillsRef, experienceRef, educationRef, statsRef, firebaseConfig };
