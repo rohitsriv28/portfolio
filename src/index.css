@@ -19,24 +19,12 @@
 
   --ease-custom-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-custom-io: cubic-bezier(0.77, 0, 0.175, 1);
-}
+  --animate-ticker: ticker 28s linear infinite;
 
-@keyframes ticker {
-  0% {
-    transform: translateX(0);
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-ticker {
-  animation: ticker 28s linear infinite;
-}
-
-.animate-ticker:hover {
-  animation-play-state: paused;
 }
 
 html {
